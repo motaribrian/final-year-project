@@ -55,15 +55,15 @@
                     <hr class="separator">
 
                     <!-- Login-Form-->
-                    <form>
+                    <form th:action="@{/login}" method="POST" th:object="${authdto}" >
 
                         <div class="mb-2 mt-5">
-                            <input type="email" class="form-control auth-input" placeholder="E-Mail Adresse" aria-describedby="emailHelp" name="email">
+                            <input type="email" class="form-control auth-input" placeholder="E-Mail Adresse" aria-describedby="emailHelp" th:field="*{email}" name="email">
                             <div id="emailHelp" class="form-text input-info-text">Please input your email address.</div>
                         </div>
 
                         <div class="mb-3">
-                            <input type="password" class="form-control auth-input" placeholder="Password" name="password">
+                            <input type="password" class="form-control auth-input" placeholder="Password" th:field="*{password}" name="password">
                         </div>
 
                         <button class="btn auth-btn mt-2 mb-4">Login</button>
