@@ -23,10 +23,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                    .antMatchers("/h2-console","/h2-console/**").permitAll()
+                    .antMatchers("/h2-console","/h2-console/**","/auth/login","logout","/auth/sign-up","/assets/**","/css/**","/js/**","/webjars/**").permitAll()
                      .anyRequest().authenticated()
                 .and()
                 .formLogin()
+                    .loginPage("/auth/login")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .successForwardUrl("/")
                 .and()
                 .csrf().ignoringAntMatchers("/h2-console/**")
                 .and()
