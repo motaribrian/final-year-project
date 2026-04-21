@@ -17,6 +17,15 @@
     <div class="header-right">
         <a class="name" href="https://www.tum.ac.ke/">&nbsp; Technical University of Mombasa &nbsp;</a>
     </div>
+
+    <div>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-outline-danger btn-sm">
+                Logout
+            </button>
+        </form>
+    </div>
+
 </header>
 <div class="container">
     <h1>Automated University Timetable Generator</h1>

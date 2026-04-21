@@ -8,10 +8,11 @@ package com.codewithmotari.collegetimetabling;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.List;
 
-import com.codewithmotari.collegetimetabling.domain.Lesson;
-import com.codewithmotari.collegetimetabling.domain.Room;
-import com.codewithmotari.collegetimetabling.domain.Timeslot;
+import com.codewithmotari.collegetimetabling.domain.*;
+import com.codewithmotari.collegetimetabling.persistence.UserAccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.Sort;
 import com.codewithmotari.collegetimetabling.persistence.LessonRepository;
 import com.codewithmotari.collegetimetabling.persistence.RoomRepository;
 import com.codewithmotari.collegetimetabling.persistence.TimeslotRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class TimeTableSpringBootApp {
@@ -32,6 +34,10 @@ public class TimeTableSpringBootApp {
 
     @Value("${timeTable.demoData}")
     private DemoData demoData;
+    @Autowired
+    private UserAccountRepository userAccountRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     public CommandLineRunner demoData(
@@ -193,6 +199,21 @@ public class TimeTableSpringBootApp {
             lesson.setRoom(roomRepository.findAll(Sort.by("id")).iterator().next());
 
             lessonRepository.save(lesson);
+
+
+            UserAccount userAccount=new UserAccount();
+            userAccount.setUserName("brianmotari02@gmail.com");
+            userAccount.setPassword(passwordEncoder.encode("123"));
+            userAccount.setAccountNonExpired(true);
+            userAccount.setAccountNonLocked(true);
+            userAccount.setEnabled(true);
+            userAccount.setCredentialsNonExpired(true);
+            userAccount.setUserRoles(List.of(ROLE.ADMIN,ROLE.STUDENT));
+
+            userAccountRepository.save(userAccount);
+
+
+
         };
     }
 

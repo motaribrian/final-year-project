@@ -1,9 +1,6 @@
 package com.codewithmotari.collegetimetabling.domain;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Teacher implements HasUserAccount{
@@ -11,7 +8,7 @@ public class Teacher implements HasUserAccount{
     @GeneratedValue
     private String firstNAme;
     private String lastName;
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
     private UserAccount  userAccount;
 
     @Override
