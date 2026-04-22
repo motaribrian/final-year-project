@@ -24,6 +24,9 @@ import com.codewithmotari.collegetimetabling.persistence.LessonRepository;
 import com.codewithmotari.collegetimetabling.persistence.RoomRepository;
 import com.codewithmotari.collegetimetabling.persistence.TimeslotRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class TimeTableSpringBootApp {
@@ -222,5 +225,6 @@ public class TimeTableSpringBootApp {
         SMALL,
         LARGE
     }
+
 
 }

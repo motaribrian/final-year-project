@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +27,7 @@ public class SpringSecurityConfig {
         return http
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                             authorizationManagerRequestMatcherRegistry
-                                    .requestMatchers("/h2-console", "/h2-console/**", "/auth/login","/login", "logout", "/auth/sign-up", "/assets/**", "/css/**", "/js/**", "/webjars/**","/error","/webjars/**", "/favicon.ico").permitAll()
+                                    .requestMatchers("/h2-console", "/h2-console/**", "/auth/login","/login", "/logout", "/auth/sign-up", "/assets/**", "/css/**", "/js/**", "/webjars/**","/error","/webjars/**", "/favicon.ico").permitAll()
                                     .anyRequest().authenticated())
                 .formLogin(httpSecurityFormLoginConfigurer -> httpSecurityFormLoginConfigurer
                         .loginPage("/auth/login")
@@ -34,10 +35,20 @@ public class SpringSecurityConfig {
                         .passwordParameter("password")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/",true))
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/h2-console/**")
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                )
+
                 .headers(httpSecurityHeadersConfigurer -> httpSecurityHeadersConfigurer
                         .frameOptions(options -> options
                                 .sameOrigin()))
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
                 .build();
     }
 

@@ -324,25 +324,22 @@ function showError(title, xhr) {
 }
 
 $(document).ready(function () {
-    // 1. Read CSRF token and header from the meta tags injected by Thymeleaf
-    var csrfToken = $("meta[name='_csrf']").attr("content");
-    var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 
-    // 2. Setup default headers for all AJAX requests
-    let defaultHeaders = {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-    };
-
-    // Inject the CSRF token if it exists
-    if (csrfToken && csrfHeader) {
-        defaultHeaders[csrfHeader] = csrfToken;
+    function getCsrf() {
+        return {
+            token: document.querySelector('meta[name="_csrf"]').content,
+            header: document.querySelector('meta[name="_csrf_header"]').content
+        };
     }
 
-    $.ajaxSetup({
-        headers: defaultHeaders
-    });
+    const csrf = getCsrf();
 
+    $.ajaxSetup({
+        contentType: "application/json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrf.header, csrf.token);
+        }
+    });
     // Extend jQuery to support $.put() and $.delete()
     jQuery.each(["put", "delete"], function (i, method) {
         jQuery[method] = function (url, data, callback, type) {
