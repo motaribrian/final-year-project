@@ -1,6 +1,7 @@
 package com.codewithmotari.collegetimetabling;
 
 import ch.qos.logback.core.encoder.Encoder;
+import com.codewithmotari.collegetimetabling.domain.UserAccount;
 import com.codewithmotari.collegetimetabling.persistence.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -33,4 +34,7 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public UserAccount createNewUser(UserAccount userAccount) {
+        return userAccountRepository.save(userAccount);
+    }
 }

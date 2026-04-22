@@ -1,11 +1,14 @@
 package com.codewithmotari.collegetimetabling.domain;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 public class Teacher implements HasUserAccount{
     @Id
     @GeneratedValue
+    private Long id;
     private String firstNAme;
     private String lastName;
     @OneToOne(cascade = CascadeType.ALL)
