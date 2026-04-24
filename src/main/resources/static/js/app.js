@@ -189,7 +189,8 @@ function convertToId(str) {
 }
 
 function solve() {
-    $.post("/timeTable/solve", function () {
+    var csrf = $('meta[name="_csrf"]').attr('content');
+    $.post("/timeTable/solve",null, function () {
         refreshSolvingButtons(true);
     }).fail(function (xhr, ajaxOptions, thrownError) {
         showError("Start solving failed.", xhr);
