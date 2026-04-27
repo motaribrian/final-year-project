@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <meta
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+            name="viewport"
+    />
+    <link
+            rel="icon"
+            href="assets/img/kaiadmin/favicon.ico"
+            type="image/x-icon"
+    />
+
+    <!-- Fonts and icons -->
+    <script src="assets/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: ["assets/css/fonts.min.css"],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+
+    <!-- CSS Just for demo purpose, don't include it in your project -->
+    <link rel="stylesheet" href="assets/css/demo.css" />
+</head>
+<body>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div class="sidebar" data-background-color="dark">
+        <div class="sidebar-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+                <a href="index.html" class="logo">
+                    <img
+                            src="assets/img/kaiadmin/logo_light.svg"
+                            alt="navbar brand"
+                            class="navbar-brand"
+                            height="20"
+                    />
+                </a>
+                <div class="nav-toggle">
+                    <button class="btn btn-toggle toggle-sidebar">
+                        <i class="gg-menu-right"></i>
+                    </button>
+                    <button class="btn btn-toggle sidenav-toggler">
+                        <i class="gg-menu-left"></i>
+                    </button>
+                </div>
+                <button class="topbar-toggler more">
+                    <i class="gg-more-vertical-alt"></i>
+                </button>
+            </div>
+            <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+            <div class="sidebar-content">
+                <ul class="nav nav-secondary">
+                    <li class="nav-item active">
+                        <a
+                                data-bs-toggle="collapse"
+                                href="#dashboard"
+                                class="collapsed"
+                                aria-expanded="false"
+                        >
+                            <i class="fas fa-home"></i>
+                            <p>Dashboard</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="dashboard">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="../demo1/index.html">
+                                        <span class="sub-item">Dashboard 1</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                        <h4 class="text-section">Components</h4>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#base">
+                            <i class="fas fa-layer-group"></i>
+                            <p>Base</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="base">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="components/avatars.html">
+                                        <span class="sub-item">Avatars</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="components/buttons.html">
+                                        <span class="sub-item">Buttons</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="components/gridsystem.html">
+                                        <span class="sub-item">Grid System</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="components/panels.html">
+                                        <span class="sub-item">Panels</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="components/notifications.html">
+                                        <span class="sub-item">Notifications</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="components/sweetalert.html">
+                                        <span class="sub-item">Sweet Alert</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="components/font-awesome-icons.html">
+                                        <span class="sub-item">Font Awesome Icons</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="components/simple-line-icons.html">
+                                        <span class="sub-item">Simple Line Icons</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="components/typography.html">
+                                        <span class="sub-item">Typography</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                            <i class="fas fa-th-list"></i>
+                            <p>Sidebar Layouts</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="sidebarLayouts">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="sidebar-style-2.html">
+                                        <span class="sub-item">Sidebar Style 2</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="icon-menu.html">
+                                        <span class="sub-item">Icon Menu</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#forms">
+                            <i class="fas fa-pen-square"></i>
+                            <p>Forms</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="forms">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="forms/forms.html">
+                                        <span class="sub-item">Basic Form</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#tables">
+                            <i class="fas fa-table"></i>
+                            <p>Tables</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="tables">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="tables/tables.html">
+                                        <span class="sub-item">Basic Table</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="tables/datatables.html">
+                                        <span class="sub-item">Datatables</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#maps">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Maps</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="maps">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="maps/googlemaps.html">
+                                        <span class="sub-item">Google Maps</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="maps/jsvectormap.html">
+                                        <span class="sub-item">Jsvectormap</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#charts">
+                            <i class="far fa-chart-bar"></i>
+                            <p>Charts</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="charts">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="charts/charts.html">
+                                        <span class="sub-item">Chart Js</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="charts/sparkline.html">
+                                        <span class="sub-item">Sparkline</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="widgets.html">
+                            <i class="fas fa-desktop"></i>
+                            <p>Widgets</p>
+                            <span class="badge badge-success">4</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="../../documentation/index.html">
+                            <i class="fas fa-file"></i>
+                            <p>Documentation</p>
+                            <span class="badge badge-secondary">1</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#submenu">
+                            <i class="fas fa-bars"></i>
+                            <p>Menu Levels</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="submenu">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a data-bs-toggle="collapse" href="#subnav1">
+                                        <span class="sub-item">Level 1</span>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="collapse" id="subnav1">
+                                        <ul class="nav nav-collapse subnav">
+                                            <li>
+                                                <a href="#">
+                                                    <span class="sub-item">Level 2</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="sub-item">Level 2</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a data-bs-toggle="collapse" href="#subnav2">
+                                        <span class="sub-item">Level 1</span>
+                                        <span class="caret"></span>
+                                    </a>
+                                    <div class="collapse" id="subnav2">
+                                        <ul class="nav nav-collapse subnav">
+                                            <li>
+                                                <a href="#">
+                                                    <span class="sub-item">Level 2</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <span class="sub-item">Level 1</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- End Sidebar -->
+    <div class="main-panel">
+        <div class="main-header">
+            <div class="d-flex align-items-center">
+                <button
+                        class="btn btn-link d-lg-none text-dark p-0 me-3"
+                        id="sidebarToggle"
+                >
+                    <i class="fas fa-bars fs-4"></i>
+                </button>
+                <h5 class="m-0 text-muted d-none d-md-block">
+                    Technical University of Mombasa - Lecturer Portal
+                </h5>
+                <h5 class="m-0 text-muted d-block d-md-none">Lecturer Portal</h5>
+            </div>
+            <div class="user-box d-flex align-items-center">
+            <span class="fw-bold"
+            ><i class="fas fa-user-circle me-1" th:text="${teacher.firstNAme}"></i> S. Mutuku</span
+            >
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="page-inner">
+                <h4 class="mb-4 fw-bold color-dark">
+                    <i class="fas fa-chalkboard-teacher me-2"></i> Lecturer Dashboard
+                </h4>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body p-4">
+                                <div class="row align-items-center">
+                                    <div
+                                            class="col-md-4 text-center text-md-start mb-4 mb-md-0 d-flex flex-column flex-md-row align-items-center"
+                                    >
+                                        <img
+                                                src="https://ui-avatars.com/api/?name=Sarah+Mutuku&background=2a2f5b&color=fff&size=150"
+                                                alt="Profile Image"
+                                                class="profile-img mb-3 mb-md-0 me-md-4"
+                                        />
+                                        <div>
+                                            <h3 class="fw-bold mb-1" th:text="${teacher.firstNAme + ' ' + teacher.lastName}">Sarah Mutuku</h3>
+                                            <span class="badge bg-success mb-2"
+                                            >Active Lecturer</span
+                                            >
+                                            <p class="text-muted mb-0">
+                                                Department of Computer Science
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-sm-6 mb-3">
+                                                <small
+                                                        class="text-muted text-uppercase fw-bold d-block mb-1"
+                                                >Staff ID / Username</small
+                                                >
+                                                <span class="fs-6 fw-medium"
+                                                ><i class="fas fa-id-badge text-primary me-2" th:text="${teacher.lastName}"></i>
+                              smutuku</span
+                                                >
+                                            </div>
+                                            <div class="col-sm-6 mb-3">
+                                                <small
+                                                        class="text-muted text-uppercase fw-bold d-block mb-1"
+                                                >Email Address</small
+                                                >
+                                                <span class="fs-6 fw-medium"
+                                                ><i class="fas fa-envelope text-primary me-2" th:text="${teacher.userAccount.userName}"></i>
+                              smutuku@tum.ac.ke</span
+                                                >
+                                            </div>
+                                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                                <small
+                                                        class="text-muted text-uppercase fw-bold d-block mb-1"
+                                                >Phone Number</small
+                                                >
+                                                <span class="fs-6 fw-medium"
+                                                ><i class="fas fa-phone text-primary me-2"></i>
+                              +254 712 345 678</span
+                                                >
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <small
+                                                        class="text-muted text-uppercase fw-bold d-block mb-1"
+                                                >Current Academic Year</small
+                                                >
+                                                <span class="fs-6 fw-medium"
+                                                ><i
+                                                        class="fas fa-graduation-cap text-primary me-2"
+                                                ></i>
+                              2026 - Semester 1</span
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="my-timetable">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div
+                                    class="card-header d-flex justify-content-between align-items-center"
+                            >
+                                <h4 class="card-title">My Weekly Timetable</h4>
+                                <button class="btn btn-outline-primary btn-sm">
+                                    <i class="fas fa-print me-1"></i> Print PDF
+                                </button>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-timetable mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th class="time-col" style="width: 10%">Time</th>
+                                            <th>Monday</th>
+                                            <th>Tuesday</th>
+                                            <th>Wednesday</th>
+                                            <th>Thursday</th>
+                                            <th>Friday</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="time-col">08:00<br />|<br />10:00</td>
+                                            <td>
+                                                <div class="lesson-card">
+                                <span class="lesson-title"
+                                >Constraint Programming</span
+                                >
+                                                    <div>
+                                                        <i class="fas fa-users text-muted me-1"></i>
+                                                        BSCS Y4S2
+                                                    </div>
+                                                    <div>
+                                                        <i
+                                                                class="fas fa-map-marker-alt text-muted me-1"
+                                                        ></i>
+                                                        Main Computer Lab
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <div class="lesson-card">
+                                <span class="lesson-title"
+                                >Software Architecture</span
+                                >
+                                                    <div>
+                                                        <i class="fas fa-users text-muted me-1"></i>
+                                                        BSCS Y4S2
+                                                    </div>
+                                                    <div>
+                                                        <i
+                                                                class="fas fa-map-marker-alt text-muted me-1"
+                                                        ></i>
+                                                        Room E101
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <tr style="height: 40px">
+                                            <td class="time-col">10:00 - 10:30</td>
+                                            <td colspan="5" class="bg-light text-muted fw-bold">
+                                                TEA BREAK
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="time-col">10:30<br />|<br />12:30</td>
+                                            <td></td>
+                                            <td>
+                                                <div
+                                                        class="lesson-card"
+                                                        style="
+                                  background-color: #e8f5e9;
+                                  border-left-color: #2e7d32;
+                                "
+                                                >
+                                <span
+                                        class="lesson-title"
+                                        style="color: #2e7d32"
+                                >IT Project Management</span
+                                >
+                                                    <div>
+                                                        <i class="fas fa-users text-muted me-1"></i>
+                                                        BIT Y3S1
+                                                    </div>
+                                                    <div>
+                                                        <i
+                                                                class="fas fa-map-marker-alt text-muted me-1"
+                                                        ></i>
+                                                        Hall B1
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <div class="lesson-card">
+                                <span class="lesson-title"
+                                >Constraint Programming</span
+                                >
+                                                    <div>
+                                                        <i class="fas fa-users text-muted me-1"></i>
+                                                        BSCS Y4S2
+                                                    </div>
+                                                    <div>
+                                                        <i
+                                                                class="fas fa-map-marker-alt text-muted me-1"
+                                                        ></i>
+                                                        Lab 3
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--   Core JS Files   -->
+<script src="assets/js/core/jquery-3.7.1.min.js"></script>
+<script src="assets/js/core/popper.min.js"></script>
+<script src="assets/js/core/bootstrap.min.js"></script>
+
+<!-- jQuery Scrollbar -->
+<script src="assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+<!-- Chart JS -->
+<script src="assets/js/plugin/chart.js/chart.min.js"></script>
+
+<!-- jQuery Sparkline -->
+<script src="assets/js/plugin/jquery.sparkline/jquery.sparkline.min.js"></script>
+
+<!-- Chart Circle -->
+<script src="assets/js/plugin/chart-circle/circles.min.js"></script>
+
+<!-- Datatables -->
+<script src="assets/js/plugin/datatables/datatables.min.js"></script>
+
+<!-- Bootstrap Notify -->
+<script src="assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+<!-- jQuery Vector Maps -->
+<script src="assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
+<script src="assets/js/plugin/jsvectormap/world.js"></script>
+
+<!-- Google Maps Plugin -->
+<script src="assets/js/plugin/gmaps/gmaps.js"></script>
+
+<!-- Sweet Alert -->
+<script src="assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+<!-- Kaiadmin JS -->
+<script src="assets/js/kaiadmin.min.js"></script>
+</body>
+</html>

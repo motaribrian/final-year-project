@@ -40,8 +40,13 @@ public class TimetableReportService {
         JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
 
         lessons.sort(
-                Comparator.comparing((Lesson l) -> l.getTimeslot().getDayOfWeek())
-                        .thenComparing(l -> l.getTimeslot().getStartTime())
+                Comparator.comparing(
+                        (Lesson l) -> l.getTimeslot() == null ? null : l.getTimeslot().getDayOfWeek(),
+                        Comparator.nullsLast(Comparator.naturalOrder())
+                ).thenComparing(
+                        l -> l.getTimeslot() == null ? null : l.getTimeslot().getStartTime(),
+                        Comparator.nullsLast(Comparator.naturalOrder())
+                )
         );
 
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lessons);

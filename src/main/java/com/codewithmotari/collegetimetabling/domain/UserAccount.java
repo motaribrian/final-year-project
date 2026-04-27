@@ -24,7 +24,7 @@ private Long id;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private List<ROLE> userRoles;
+    private List<ROLE> userRoles=new ArrayList<>();
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
