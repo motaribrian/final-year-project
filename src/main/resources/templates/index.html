@@ -163,64 +163,83 @@
 </div>
 
 <div class="modal fade" id="lessonDialog" role="dialog" tabindex="-1">
-  <div class="modal-dialog" role="dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4>Add a lesson</h4>
-        <button class="close" data-dismiss="modal" type="button">
-          <span>&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <label for="lesson_subject">Subject</label>
-          <input
-                  class="form-control"
-                  id="lesson_subject"
-                  required
-                  type="text"
-                  value="Data Structures"
-          />
+    <div class="modal-dialog" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Add a lesson</h4>
+                <button class="close" data-dismiss="modal" type="button">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="lesson_subject">Subject</label>
+                    <input
+                            class="form-control"
+                            id="lesson_subject"
+                            required
+                            type="text"
+                            placeholder="e.g. Data Structures"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="lesson_teacher">Lecturer</label>
+                    <select class="form-control" id="lesson_teacher" required onchange="toggleNewLecturerFields(this)">
+                        <option value="" disabled selected>Select a lecturer...</option>
+                        <option value="1">John Omondi</option>
+                        <option value="2">Sarah Mutuku</option>
+                        <option value="3">Peter Njeri</option>
+                        <option value="NEW" style="font-weight: bold; color: #0056b3;">+ Create New Lecturer</option>
+                    </select>
+                </div>
+
+                <div id="new_lecturer_fields" style="display: none; background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px; border: 1px solid #dee2e6;">
+                    <h6 style="margin-top: 0;">New Lecturer Details</h6>
+                    <div class="form-group">
+                        <label for="new_teacher_firstName">First Name</label>
+                        <input class="form-control" id="new_teacher_firstName" type="text" placeholder="First Name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="new_teacher_username">Username</label>
+                        <input class="form-control" id="new_teacher_username" type="text" placeholder="Username"/>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="new_teacher_password">Password</label>
+                        <input class="form-control" id="new_teacher_password" type="password" placeholder="Password"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="lesson_studentGroup">Student group</label>
+                    <input
+                            class="form-control"
+                            id="lesson_studentGroup"
+                            required
+                            type="text"
+                            placeholder="e.g. Year 3 CS"
+                    />
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                            class="btn btn-default"
+                            data-dismiss="modal"
+                            type="button"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                            class="btn btn-primary"
+                            id="addLessonSubmitButton"
+                            type="button"
+                    >
+                        Submit new lesson
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-          <label for="lesson_teacher">Lecturer</label>
-          <input
-                  class="form-control"
-                  id="lesson_teacher"
-                  required
-                  type="text"
-                  value="Dr. Smith"
-          />
-        </div>
-        <div class="form-group">
-          <label for="lesson_studentGroup">Student group</label>
-          <input
-                  class="form-control"
-                  id="lesson_studentGroup"
-                  required
-                  type="text"
-                  value="Year 3 CS"
-          />
-        </div>
-        <div class="modal-footer">
-          <button
-                  class="btn btn-default"
-                  data-dismiss="modal"
-                  type="button"
-          >
-            Cancel
-          </button>
-          <button
-                  class="btn btn-primary"
-                  id="addLessonSubmitButton"
-                  type="button"
-          >
-            Submit new lesson
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 <div class="modal fade" id="timeslotDialog" role="dialog" tabindex="-1">
   <div class="modal-dialog" role="dialog">
@@ -355,5 +374,36 @@
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/webjars/momentjs/min/moment.min.js}"></script>
 <script th:src="@{/js/app.js}"></script>
+<script>
+    function toggleNewLecturerFields(selectElement) {
+        const newFieldsContainer = document.getElementById('new_lecturer_fields');
+        const firstNameInput = document.getElementById('new_teacher_firstName');
+        const usernameInput = document.getElementById('new_teacher_username');
+        const passwordInput = document.getElementById('new_teacher_password');
+
+        if (selectElement.value === 'NEW') {
+            // Show the fields
+            newFieldsContainer.style.display = 'block';
+
+            // Make the new fields required since the user chose to create one
+            firstNameInput.required = true;
+            usernameInput.required = true;
+            passwordInput.required = true;
+        } else {
+            // Hide the fields
+            newFieldsContainer.style.display = 'none';
+
+            // Remove the required attribute so form validation doesn't block submission
+            firstNameInput.required = false;
+            usernameInput.required = false;
+            passwordInput.required = false;
+
+            // Clear out any typed values just in case they change their mind
+            firstNameInput.value = '';
+            usernameInput.value = '';
+            passwordInput.value = '';
+        }
+    }
+</script>
 </body>
 </html>
