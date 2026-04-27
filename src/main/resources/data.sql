@@ -1,0 +1,70 @@
+-- -- ==========================================
+-- -- 1. USER ACCOUNTS (Required for Teacher OneToOne mapping)
+-- -- ==========================================
+-- INSERT INTO user_account
+-- (id, user_name, password, account_non_expired, account_non_locked, credentials_non_expired, enabled)
+-- VALUES
+--
+--     (1, 'brianmotari02@gmail.com', '$2a$10$VxQY.aUhXs4DpOLcbKwdWOzrQjqEjKK1yEYxyc0RY2y1v/ctm9I82', 1, 1, 1, 1),
+--     (2, 'mary.jane@gmail.com', '$2a$10$encodedPasswordHere2', 1, 1, 1, 1),
+--     (3, 'alex.kim@gmail.com', '$2a$10$encodedPasswordHere3', 1, 1, 1, 1),
+--     (4, 'sarah.ali@gmail.com', '$2a$10$encodedPasswordHere4', 1, 1, 1, 1),
+--     (5, 'daniel.oko@gmail.com', '$2a$10$encodedPasswordHere5', 1, 1, 1, 1);
+--
+-- -- ==========================================
+-- -- 2. TEACHERS (TUM Faculty)
+-- -- ==========================================
+-- -- Note: Mapped your 'firstNAme' entity property to 'first_name'
+-- INSERT INTO teacher (id, firstname, last_name, user_account_id) VALUES
+--                                                                      (1, 'John', 'Omondi', 1),
+--                                                                      (2, 'Sarah', 'Mutuku', 2),
+--                                                                      (3, 'Peter', 'Njeri', 3),
+--                                                                      (4, 'Alice', 'Wamalwa', 4);
+--
+-- -- ==========================================
+-- -- 3. ROOMS (TUM Venues)
+-- -- ==========================================
+-- INSERT INTO room (id, name) VALUES
+--                                 (1, 'Engineering Block - Room E101'),
+--                                 (2, 'Engineering Block - Room E102'),
+--                                 (3, 'Main Computer Lab - Library Wing'),
+--                                 (4, 'Business Block - Hall B1'),
+--                                 (5, 'Applied Sciences - Lab 3');
+--
+-- -- ==========================================
+-- -- 4. TIMESLOTS
+-- -- ==========================================
+-- -- Using Java DayOfWeek integer mappings (1=Monday, 2=Tuesday, etc.)
+-- -- MONDAY
+-- INSERT INTO timeslot (id, day_of_week, start_time, end_time) VALUES
+--                                                                  (1, 1, '08:00:00', '10:00:00'),
+--                                                                  (2, 1, '10:30:00', '12:30:00'),
+--                                                                  (3, 1, '14:00:00', '16:00:00');
+--
+-- -- TUESDAY
+-- INSERT INTO timeslot (id, day_of_week, start_time, end_time) VALUES
+--                                                                  (4, 2, '08:00:00', '10:00:00'),
+--                                                                  (5, 2, '10:30:00', '12:30:00'),
+--                                                                  (6, 2, '14:00:00', '16:00:00');
+--
+-- -- WEDNESDAY
+-- INSERT INTO timeslot (id, day_of_week, start_time, end_time) VALUES
+--                                                                  (7, 3, '08:00:00', '10:00:00'),
+--                                                                  (8, 3, '10:30:00', '12:30:00');
+--
+-- -- ==========================================
+-- -- 5. LESSONS (Unassigned - Ready for Solver)
+-- -- ==========================================
+-- -- timeslot_id and room_id are left NULL for the constraint solver to figure out.
+--
+-- -- BSc. Computer Science (BSCS) Year 4 Semester 2
+-- INSERT INTO lesson (id, subject, student_group, teacher_id, timeslot_id, room_id) VALUES
+--                                                                                       (1, 'Constraint Programming', 'BSCS Y4S2', 2, NULL, NULL),
+--                                                                                       (2, 'Artificial Intelligence', 'BSCS Y4S2', 1, NULL, NULL),
+--                                                                                       (3, 'Software Architecture', 'BSCS Y4S2', 1, NULL, NULL);
+--
+-- -- BSc. Information Technology (BIT) Year 3 Semester 1
+-- INSERT INTO lesson (id, subject, student_group, teacher_id, timeslot_id, room_id) VALUES
+--                                                                                       (4, 'Network Administration', 'BIT Y3S1', 3, NULL, NULL),
+--                                                                                       (5, 'Database Management Systems', 'BIT Y3S1', 4, NULL, NULL),
+--                                                                                       (6, 'Web Systems Development', 'BIT Y3S1', 3, NULL, NULL);
