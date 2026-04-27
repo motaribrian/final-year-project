@@ -23,4 +23,13 @@ public class Teacher implements HasUserAccount{
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
     }
+
+    public Teacher(String firstNAme, String lastName, UserAccount userAccount) {
+        this.firstNAme = firstNAme;
+        this.lastName = lastName;
+        this.userAccount = userAccount;
+    }
+
+    public Teacher() {
+    }
 }

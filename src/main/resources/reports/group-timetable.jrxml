@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="StudentGroupTimetable" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d">
+
+    <style name="Base" isDefault="true" fontName="SansSerif" fontSize="10"/>
+
+    <style name="TableHeader" mode="Opaque" backcolor="#2C3E50" forecolor="#FFFFFF" fontName="SansSerif" fontSize="11" isBold="true" vTextAlign="Middle" hTextAlign="Center">
+        <box>
+            <pen lineWidth="0.5" lineColor="#2C3E50"/>
+        </box>
+    </style>
+
+    <style name="TableRow" mode="Opaque" backcolor="#FFFFFF" vTextAlign="Middle" hTextAlign="Left">
+        <box leftPadding="5" rightPadding="5">
+            <pen lineWidth="0.5" lineColor="#DDDDDD"/>
+        </box>
+        <conditionalStyle>
+            <conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 1]]></conditionExpression>
+            <style backcolor="#F9F9F9"/>
+        </conditionalStyle>
+    </style>
+
+    <style name="DayHeader" mode="Opaque" backcolor="#E8ECEF" fontName="SansSerif" fontSize="12" isBold="true" vTextAlign="Middle" hTextAlign="Left">
+        <box leftPadding="5">
+            <topPen lineWidth="1.0" lineColor="#BDC3C7"/>
+            <bottomPen lineWidth="1.0" lineColor="#BDC3C7"/>
+        </box>
+    </style>
+
+    <parameter name="ReportTitle" class="java.lang.String"/>
+
+    <field name="subject" class="java.lang.String"/>
+    <field name="timeslot.dayOfWeek" class="java.lang.Enum"/>
+    <field name="timeslot.startTime" class="java.time.LocalTime"/>
+    <field name="timeslot.endTime" class="java.time.LocalTime"/>
+    <field name="room.name" class="java.lang.String"/>
+    <field name="teacher.firstNAme" class="java.lang.String"/>
+    <field name="teacher.lastName" class="java.lang.String"/>
+
+    <group name="DayGroup">
+        <groupExpression><![CDATA[$F{timeslot.dayOfWeek}]]></groupExpression>
+        <groupHeader>
+            <band height="25">
+                <textField>
+                    <reportElement style="DayHeader" x="0" y="0" width="555" height="25" uuid="11111111-2222-3333-4444-555555555555"/>
+                    <textFieldExpression><![CDATA["DAY: " + $F{timeslot.dayOfWeek}.toString()]]></textFieldExpression>
+                </textField>
+            </band>
+        </groupHeader>
+        <groupFooter>
+            <band height="15"/>
+        </groupFooter>
+    </group>
+
+    <title>
+        <band height="80">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="25" forecolor="#2C3E50" uuid="22222222-3333-4444-5555-666666666666"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TECHNICAL UNIVERSITY OF MOMBASA]]></text>
+            </staticText>
+
+            <staticText>
+                <reportElement x="0" y="25" width="555" height="20" forecolor="#7F8C8D" uuid="33333333-4444-5555-6666-777777777777"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12" isBold="false"/>
+                </textElement>
+                <text><![CDATA[Office of the Registrar (Academic Affairs)]]></text>
+            </staticText>
+
+            <textField>
+                <reportElement x="0" y="50" width="555" height="20" uuid="44444444-5555-6666-7777-888888888888"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$P{ReportTitle}]]></textFieldExpression>
+            </textField>
+
+            <line>
+                <reportElement x="0" y="75" width="555" height="1" forecolor="#2C3E50" uuid="55555555-6666-7777-8888-999999999999"/>
+                <graphicElement>
+                    <pen lineWidth="2.0"/>
+                </graphicElement>
+            </line>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="25">
+            <staticText>
+                <reportElement style="TableHeader" x="0" y="0" width="120" height="25" uuid="aaaa1111-bbbb-cccc-dddd-eeeeeeeeeeee"/>
+                <text><![CDATA[TIME]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="TableHeader" x="120" y="0" width="160" height="25" uuid="aaaa2222-bbbb-cccc-dddd-eeeeeeeeeeee"/>
+                <text><![CDATA[UNIT / SUBJECT]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="TableHeader" x="280" y="0" width="140" height="25" uuid="aaaa3333-bbbb-cccc-dddd-eeeeeeeeeeee"/>
+                <text><![CDATA[LECTURER]]></text>
+            </staticText>
+            <staticText>
+                <reportElement style="TableHeader" x="420" y="0" width="135" height="25" uuid="aaaa4444-bbbb-cccc-dddd-eeeeeeeeeeee"/>
+                <text><![CDATA[VENUE]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="25">
+            <textField>
+                <reportElement style="TableRow" x="0" y="0" width="120" height="25" uuid="bbbb1111-cccc-dddd-eeee-ffffffffffff"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$F{timeslot.startTime}.toString() + " - " + $F{timeslot.endTime}.toString()]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement style="TableRow" x="120" y="0" width="160" height="25" uuid="bbbb2222-cccc-dddd-eeee-ffffffffffff"/>
+                <textFieldExpression><![CDATA[$F{subject}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement style="TableRow" x="280" y="0" width="140" height="25" uuid="bbbb3333-cccc-dddd-eeee-ffffffffffff"/>
+                <textFieldExpression><![CDATA[$F{teacher.firstNAme} + " " + $F{teacher.lastName}]]></textFieldExpression>
+            </textField>
+
+            <textField>
+                <reportElement style="TableRow" x="420" y="0" width="135" height="25" uuid="bbbb4444-cccc-dddd-eeee-ffffffffffff"/>
+                <textFieldExpression><![CDATA[$F{room.name} == null ? "TBA" : $F{room.name}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="20">
+            <textField>
+                <reportElement x="0" y="0" width="277" height="20" forecolor="#7F8C8D" uuid="cccc1111-dddd-eeee-ffff-111111111111"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Generated on: " + new java.util.Date()]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="277" y="0" width="278" height="20" forecolor="#7F8C8D" uuid="cccc2222-dddd-eeee-ffff-222222222222"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+
+</jasperReport>

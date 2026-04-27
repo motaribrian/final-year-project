@@ -1,5 +1,9 @@
 package com.codewithmotari.collegetimetabling.rest;
 
+import com.codewithmotari.collegetimetabling.persistence.LessonRepository;
+import com.codewithmotari.collegetimetabling.service.TimetableReportService;
+import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
 import org.optaplanner.core.api.score.ScoreManager;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.solver.SolverManager;
@@ -13,9 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codewithmotari.collegetimetabling.domain.TimeTable;
 import com.codewithmotari.collegetimetabling.persistence.TimeTableRepository;
 
+@Slf4j
 @RestController
 @RequestMapping("/timeTable")
 public class TimeTableController {
+    @Autowired
+    private TimetableReportService timetableReportService;
 
     @Autowired
     private TimeTableRepository timeTableRepository;
@@ -23,7 +30,8 @@ public class TimeTableController {
     private SolverManager<TimeTable, Long> solverManager;
     @Autowired
     private ScoreManager<TimeTable, HardSoftScore> scoreManager;
-
+    @Autowired
+    private LessonRepository lessonRepository;
 
 
     // To try, GET http://localhost:8080/timeTable
@@ -52,6 +60,17 @@ public class TimeTableController {
     @PostMapping("/stopSolving")
     public void stopSolving() {
         solverManager.terminateEarly(TimeTableRepository.SINGLETON_TIME_TABLE_ID);
+    }
+
+
+    @GetMapping("/download")
+    public byte[] download(){
+        try {
+            return timetableReportService.exportMasterTimetable(lessonRepository.findAll());
+        } catch (JRException e) {
+            log.debug("Could not get Timetable");
+            throw new RuntimeException(e);
+        }
     }
 
 }
