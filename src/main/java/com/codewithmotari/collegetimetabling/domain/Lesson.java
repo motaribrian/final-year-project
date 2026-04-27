@@ -5,10 +5,7 @@
 
 package com.codewithmotari.collegetimetabling.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.lookup.PlanningId;
@@ -23,7 +20,9 @@ public class Lesson {
     private Long id;
 
     private String subject;
-    private String teacher;
+    @ManyToOne()
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
     private String studentGroup;
 
     @PlanningVariable(valueRangeProviderRefs = "timeslotRange")
@@ -38,13 +37,13 @@ public class Lesson {
     public Lesson() {
     }
 
-    public Lesson(String subject, String teacher, String studentGroup) {
+    public Lesson(String subject, Teacher teacher, String studentGroup) {
         this.subject = subject.trim();
-        this.teacher = teacher.trim();
+        this.teacher = teacher;
         this.studentGroup = studentGroup.trim();
     }
 
-    public Lesson(long id, String subject, String teacher, String studentGroup, Timeslot timeslot, Room room) {
+    public Lesson(long id, String subject, Teacher teacher, String studentGroup, Timeslot timeslot, Room room) {
         this(subject, teacher, studentGroup);
         this.id = id;
         this.timeslot = timeslot;
@@ -68,9 +67,6 @@ public class Lesson {
         return subject;
     }
 
-    public String getTeacher() {
-        return teacher;
-    }
 
     public String getStudentGroup() {
         return studentGroup;
@@ -78,6 +74,14 @@ public class Lesson {
 
     public Timeslot getTimeslot() {
         return timeslot;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
     public void setTimeslot(Timeslot timeslot) {

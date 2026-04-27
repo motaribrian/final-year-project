@@ -1,5 +1,56 @@
 var autoRefreshIntervalId = null;
 
+function downloadTimetable(){
+
+    $.ajax({
+        url: "/timeTable/download",
+        method: "GET",
+        xhrFields: {
+            responseType: "blob"
+        },
+        success: function (data) {
+
+            const blob = new Blob([data], { type: "application/pdf" });
+            const url = window.URL.createObjectURL(blob);
+
+            // Set PDF into iframe
+            $("#pdfViewer").attr("src", url);
+
+            // Show modal
+            $("#pdfModal").modal("show");
+        }
+    });
+}
+
+// function downloadTimetable(){
+//     $.ajax({
+//         url: "/timeTable/download",
+//         method: "GET",
+//         xhrFields: {
+//             responseType: "blob"
+//         },
+//         success: function (data) {
+//             const blob = new Blob([data], { type: "application/pdf" });
+//             const url = window.URL.createObjectURL(blob);
+//
+//             const a = document.createElement("a");
+//             a.href = url;
+//             a.download = "timetable.pdf";
+//             document.body.appendChild(a);
+//             a.click();
+//
+//             a.remove();
+//             window.URL.revokeObjectURL(url);
+//         }
+//     });
+// }
+
+
+
+
+
+
+
 function refreshTimeTable() {
     $.getJSON("/timeTable", function (timeTable) {
         refreshSolvingButtons(
@@ -38,7 +89,7 @@ function refreshTimeTable() {
         const headerRowByTeacher = $("<tr>").appendTo(theadByTeacher);
         headerRowByTeacher.append($("<th>Timeslot</th>"));
         const teacherList = [
-            ...new Set(timeTable.lessonList.map((lesson) => lesson.teacher)),
+            ...new Set(timeTable.lessonList.map((lesson) => lesson.teacher.firstNAme)),
         ];
         $.each(teacherList, (index, teacher) => {
             headerRowByTeacher.append($("<th/>").append($("<span/>").text(teacher)));
@@ -146,7 +197,7 @@ function refreshTimeTable() {
                     .append($(`<h5 class="card-title mb-1"/>`).text(lesson.subject))
                     .append(
                         $(`<p class="card-text ml-2 mb-1"/>`).append(
-                            $(`<em/>`).text(`by ${lesson.teacher}`)
+                            $(`<em/>`).text(`by ${lesson.teacher.firstNAme}`)
                         )
                     )
                     .append(
@@ -171,7 +222,7 @@ function refreshTimeTable() {
                     lessonElement
                 );
                 $(
-                    `#timeslot${lesson.timeslot.id}teacher${convertToId(lesson.teacher)}`
+                    `#timeslot${lesson.timeslot.id}teacher${convertToId(lesson.teacher.firstNAme)}`
                 ).append(lessonElementWithoutDelete.clone());
                 $(
                     `#timeslot${lesson.timeslot.id}studentGroup${convertToId(
@@ -189,7 +240,8 @@ function convertToId(str) {
 }
 
 function solve() {
-    $.post("/timeTable/solve", function () {
+    var csrf = $('meta[name="_csrf"]').attr('content');
+    $.post("/timeTable/solve",null, function () {
         refreshSolvingButtons(true);
     }).fail(function (xhr, ajaxOptions, thrownError) {
         showError("Start solving failed.", xhr);
@@ -322,15 +374,19 @@ function showError(title, xhr) {
     notification.toast({ delay: 30000 });
     notification.toast("show");
 }
+function getCsrf() {
+    return {
+        token: document.querySelector('meta[name="_csrf"]').content,
+        header: document.querySelector('meta[name="_csrf_header"]').content
+    };
+}
 
 $(document).ready(function () {
+    $("#pdfModal").on("hidden.bs.modal", function () {
+        $("#pdfViewer").attr("src", "");
+    });
 
-    function getCsrf() {
-        return {
-            token: document.querySelector('meta[name="_csrf"]').content,
-            header: document.querySelector('meta[name="_csrf_header"]').content
-        };
-    }
+
 
     const csrf = getCsrf();
 
@@ -360,6 +416,9 @@ $(document).ready(function () {
 
     $("#refreshButton").click(function () {
         refreshTimeTable();
+    });
+    $("#downloadButton").click(function () {
+        downloadTimetable();
     });
     $("#solveButton").click(function () {
         solve();
