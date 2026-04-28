@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      name="viewport"
+    />
+    <link
+      rel="icon"
+      href="assets/img/kaiadmin/favicon.ico"
+      type="image/x-icon"
+    />
+
+    <!-- Fonts and icons -->
+    <script th:src="@{/js/webfont.min.js}"></script>
+    <script th:inline="javascript">
+        var url=/*[[@{/css/fonts.min.css}]]*/ '/css/fonts.min.css';
+      WebFont.load({
+
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: [url],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- CSS Files -->
+    <link
+      th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/kaiadmin.min.css}" />
+  </head>
+  <style>
+    /* Main Panel Styles */
+    .main-panel {
+      position: relative;
+      width: calc(100% - 260px);
+      min-height: 100vh;
+      float: right;
+      transition: all 0.3s;
+    }
+    .main-header {
+      background: #fff;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      padding: 0 30px;
+      box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+      z-index: 2;
+      justify-content: space-between;
+    }
+    .page-inner {
+      padding: 30px;
+    }
+
+    /* Card Styles */
+    .card {
+      border-radius: 8px;
+      border: none;
+      box-shadow:
+        0 2px 6px 0 rgba(218, 218, 253, 0.65),
+        0 2px 6px 0 rgba(206, 206, 238, 0.54);
+      margin-bottom: 30px;
+    }
+    .card-header {
+      background: transparent;
+      border-bottom: 1px solid #ebecec;
+      padding: 15px 25px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2a2f5b;
+      margin: 0;
+    }
+
+    /* Profile Image Setup */
+    .profile-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #31ce36;
+      padding: 3px;
+    }
+
+    /* Timetable Specific Styles */
+    .table-timetable th {
+      background-color: #2a2f5b;
+      color: white;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .table-timetable td {
+      height: 100px;
+      vertical-align: middle;
+      text-align: center;
+      border: 1px solid #dee2e6;
+      width: 16.6%;
+    }
+    .time-col {
+      background-color: #f8f9fa;
+      font-weight: bold;
+      color: #2a2f5b;
+    }
+    .lesson-card {
+      background-color: #e3f2fd;
+      border-left: 4px solid #0056b3;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      text-align: left;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .lesson-title {
+      font-weight: bold;
+      color: #0056b3;
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.95rem;
+    }
+
+    /* Responsive Media Queries */
+    @media (max-width: 991px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .main-panel {
+        width: 100%;
+      }
+      body.sidebar-open .sidebar {
+        transform: translateX(0);
+      }
+      .page-inner {
+        padding: 15px;
+      }
+    }
+  </style>
+  <style>
+      /*----------------------- Preloader -----------------------*/
+      body.preloader-site {
+          overflow: hidden;
+      }
+
+      .preloader-wrapper {
+          height: 100%;
+          width: 100%;
+          background: #FFF;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 9999999;
+      }
+
+      .preloader-wrapper .preloader {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+          width: 120px;
+      }
+  </style>
+  <body>
+  <div class="preloader-wrapper">
+      <div class="preloader">
+          <img th:src="@{/assets/preview.gif}" alt="NILA">
+      </div>
+  </div>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar" data-background-color="dark">
+        <div class="sidebar-logo">
+          <!-- Logo Header -->
+          <div class="logo-header" data-background-color="dark">
+            <a href="index.html" class="logo">
+              <img
+                th:src="@{/assets/logo.png}"
+                alt="navbar brand"
+                class="navbar-brand"
+                height="20"
+              />
+            </a>
+            <div class="nav-toggle">
+              <button class="btn btn-toggle toggle-sidebar">
+                <i class="gg-menu-right"></i>
+              </button>
+              <button class="btn btn-toggle sidenav-toggler">
+                <i class="gg-menu-left"></i>
+              </button>
+            </div>
+            <button class="topbar-toggler more">
+              <i class="gg-more-vertical-alt"></i>
+            </button>
+          </div>
+          <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+              <li class="nav-item active">
+                <a
+                  data-bs-toggle="collapse"
+                  href="#dashboard"
+                  class="collapsed"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-home"></i>
+                  <p>Dashboard</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="dashboard">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="../demo1/index.html">
+                        <span class="sub-item">Dashboard 1</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Components</h4>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#base">
+                  <i class="fas fa-layer-group"></i>
+                  <p>Base</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="base">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="components/avatars.html">
+                        <span class="sub-item">Avatars</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="components/buttons.html">
+                        <span class="sub-item">Buttons</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="components/gridsystem.html">
+                        <span class="sub-item">Grid System</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="components/panels.html">
+                        <span class="sub-item">Panels</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="components/notifications.html">
+                        <span class="sub-item">Notifications</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="components/sweetalert.html">
+                        <span class="sub-item">Sweet Alert</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="components/font-awesome-icons.html">
+                        <span class="sub-item">Font Awesome Icons</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="components/simple-line-icons.html">
+                        <span class="sub-item">Simple Line Icons</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="components/typography.html">
+                        <span class="sub-item">Typography</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                  <i class="fas fa-th-list"></i>
+                  <p>Sidebar Layouts</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="sidebarLayouts">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="sidebar-style-2.html">
+                        <span class="sub-item">Sidebar Style 2</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="icon-menu.html">
+                        <span class="sub-item">Icon Menu</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#forms">
+                  <i class="fas fa-pen-square"></i>
+                  <p>Forms</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="forms">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="forms/forms.html">
+                        <span class="sub-item">Basic Form</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#tables">
+                  <i class="fas fa-table"></i>
+                  <p>Tables</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="tables">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="tables/tables.html">
+                        <span class="sub-item">Basic Table</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="tables/datatables.html">
+                        <span class="sub-item">Datatables</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#maps">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <p>Maps</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="maps">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="maps/googlemaps.html">
+                        <span class="sub-item">Google Maps</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="maps/jsvectormap.html">
+                        <span class="sub-item">Jsvectormap</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#charts">
+                  <i class="far fa-chart-bar"></i>
+                  <p>Charts</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="charts">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="charts/charts.html">
+                        <span class="sub-item">Chart Js</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="charts/sparkline.html">
+                        <span class="sub-item">Sparkline</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a href="widgets.html">
+                  <i class="fas fa-desktop"></i>
+                  <p>Widgets</p>
+                  <span class="badge badge-success">4</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../../documentation/index.html">
+                  <i class="fas fa-file"></i>
+                  <p>Documentation</p>
+                  <span class="badge badge-secondary">1</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#submenu">
+                  <i class="fas fa-bars"></i>
+                  <p>Menu Levels</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="submenu">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a data-bs-toggle="collapse" href="#subnav1">
+                        <span class="sub-item">Level 1</span>
+                        <span class="caret"></span>
+                      </a>
+                      <div class="collapse" id="subnav1">
+                        <ul class="nav nav-collapse subnav">
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Level 2</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Level 2</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li>
+                      <a data-bs-toggle="collapse" href="#subnav2">
+                        <span class="sub-item">Level 1</span>
+                        <span class="caret"></span>
+                      </a>
+                      <div class="collapse" id="subnav2">
+                        <ul class="nav nav-collapse subnav">
+                          <li>
+                            <a href="#">
+                              <span class="sub-item">Level 2</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <span class="sub-item">Level 1</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar -->
+      <div class="main-panel">
+        <div class="main-header">
+          <div class="d-flex align-items-center">
+            <button
+              class="btn btn-link d-lg-none text-dark p-0 me-3"
+              id="sidebarToggle"
+            >
+              <i class="fas fa-bars fs-4"></i>
+            </button>
+            <h5 class="m-0 text-muted d-none d-md-block">
+              Technical University of Mombasa - Lecturer Portal
+            </h5>
+            <h5 class="m-0 text-muted d-block d-md-none">Lecturer Portal</h5>
+          </div>
+          <div class="user-box d-flex align-items-center">
+            <span class="fw-bold"
+              ><i
+                class="fas fa-user-circle me-1"
+                th:text="${teacher.firstNAme}"
+              ></i>
+              S. Mutuku</span
+            >
+          </div>
+        </div>
+
+        <div class="container-fluid">
+          <div class="page-inner">
+            <h4 class="mb-4 fw-bold color-dark">
+              <i class="fas fa-chalkboard-teacher me-2"></i> Lecturer Dashboard
+            </h4>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body p-4">
+                    <div class="row align-items-center">
+                      <div
+                        class="col-md-4 text-center text-md-start mb-4 mb-md-0 d-flex flex-column flex-md-row align-items-center"
+                      >
+                        <img
+                          src="https://ui-avatars.com/api/?name=Sarah+Mutuku&background=2a2f5b&color=fff&size=150"
+                          alt="Profile Image"
+                          class="profile-img mb-3 mb-md-0 me-md-4"
+                        />
+                        <div>
+                          <h3
+                            class="fw-bold mb-1"
+                            th:text="${teacher.firstNAme + ' ' + teacher.lastName}"
+                          >
+                            Sarah Mutuku
+                          </h3>
+                          <span class="badge bg-success mb-2"
+                            >Active Lecturer</span
+                          >
+                          <p class="text-muted mb-0">
+                            Department of Computer Science
+                          </p>
+                        </div>
+                      </div>
+
+                      <div class="col-md-8">
+                        <div class="row">
+                          <div class="col-sm-6 mb-3">
+                            <small
+                              class="text-muted text-uppercase fw-bold d-block mb-1"
+                              >Staff ID / Username</small
+                            >
+                            <span class="fs-6 fw-medium"
+                              ><i
+                                class="fas fa-id-badge text-primary me-2"
+                                th:text="${teacher.lastName}"
+                              ></i>
+                              smutuku</span
+                            >
+                          </div>
+                          <div class="col-sm-6 mb-3">
+                            <small
+                              class="text-muted text-uppercase fw-bold d-block mb-1"
+                              >Email Address</small
+                            >
+                            <span class="fs-6 fw-medium"
+                              ><i
+                                class="fas fa-envelope text-primary me-2"
+                                th:text="${teacher.userAccount.userName}"
+                              ></i>
+                              smutuku@tum.ac.ke</span
+                            >
+                          </div>
+                          <div class="col-sm-6 mb-3 mb-sm-0">
+                            <small
+                              class="text-muted text-uppercase fw-bold d-block mb-1"
+                              >Phone Number</small
+                            >
+                            <span class="fs-6 fw-medium"
+                              ><i class="fas fa-phone text-primary me-2"></i>
+                              +254 712 345 678</span
+                            >
+                          </div>
+                          <div class="col-sm-6">
+                            <small
+                              class="text-muted text-uppercase fw-bold d-block mb-1"
+                              >Current Academic Year</small
+                            >
+                            <span class="fs-6 fw-medium"
+                              ><i
+                                class="fas fa-graduation-cap text-primary me-2"
+                              ></i>
+                              2026 - Semester 1</span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" id="my-timetable">
+              <div class="col-md-12">
+                <div class="card">
+                  <div
+                    class="card-header d-flex justify-content-between align-items-center"
+                  >
+                    <h4 class="card-title">My Weekly Timetable</h4>
+                    <button class="btn btn-outline-primary btn-sm" id="printLecturerTimetable" th:onclick="|downloadLecturerTimetable('${teacher.id}')|">
+                      <i class="fas fa-print me-1"></i> Print PDF
+                    </button>
+                  </div>
+                  <div class="card-body p-0">
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-timetable mb-0">
+                        <thead>
+                          <tr>
+                            <th class="time-col" style="width: 10%">Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                            <th>Saturday</th>
+                            <th>Sunday</th>
+                          </tr>
+                        </thead>
+                          <tbody>
+                          <tr th:each="slot : ${timeslots}">
+                              <td class="time-col">
+                                  <span th:text="${slot.startTime}"></span><br />|<br />
+                                  <span th:text="${slot.endTime}"></span>
+                              </td>
+
+                              <td th:each="day : ${days}">
+
+                                  <div th:each="lesson : ${lessonList}"
+                                       th:if="${lesson.timeSlot != null
+                   and lesson.timeSlot.dayOfWeek == day
+                   and lesson.timeSlot.startTime == slot.startTime
+                   and lesson.timeSlot.endTime == slot.endTime}">
+
+                                      <div class="lesson-card">
+                                          <span class="lesson-title" th:text="${lesson.subject}"></span>
+
+                                          <div>
+                                              <i class="fas fa-users text-muted me-1"></i>
+                                              <span th:text="${lesson.studentGroup}"></span>
+                                          </div>
+
+                                          <div>
+                                              <i class="fas fa-map-marker-alt text-muted me-1"></i>
+                                              <span th:text="${lesson.room}"></span>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <th:block th:if="${lessonList.?[timeSlot != null
+                            and timeSlot.dayOfWeek == #day
+                            and timeSlot.startTime == #slot.startTime
+                            and timeSlot.endTime == #slot.endTime].isEmpty()}">
+                                      <span class="text-muted">Not assigned</span>
+                                  </th:block>
+
+                              </td>
+                          </tr>
+                          </tbody>
+
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!--modals-->
+  <!-- PDF Modal -->
+  <div class="modal fade" id="pdfModal" tabindex="-1">
+      <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+
+              <div class="modal-header">
+                  <h5 class="modal-title">Timetable Preview</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+
+              <div class="modal-body" style="height:80vh;">
+                  <iframe id="pdfViewer" width="100%" height="100%" style="border:none;"></iframe>
+              </div>
+
+          </div>
+      </div>
+  </div>
+
+    <!--   Core JS Files   -->
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+    <!-- Datatables -->
+    <script th:src="@{/js/datatables.min.js}"></script>
+
+    <!-- Kaiadmin JS -->
+    <script th:src="@{/js/kaiadmin.min.js}"></script>
+  <script th:src="@{/js/app2.js}"></script>
+
+  </body>
+</html>
