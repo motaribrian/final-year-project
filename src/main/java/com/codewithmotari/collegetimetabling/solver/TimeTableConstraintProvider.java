@@ -35,7 +35,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 // Select each pair of 2 different lessons ...
                 .fromUniquePair(Lesson.class,
                         // ... in the same timeslot ...
-                        Joiners.equal(Lesson::getTimeslot),
+                        Joiners.equal(Lesson::getTimeSlot),
                         // ... in the same room ...
                         Joiners.equal(Lesson::getRoom))
                 // ... and penalize each pair with a hard weight.
@@ -46,7 +46,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         // A teacher can teach at most one lesson at the same time.
         return constraintFactory
                 .fromUniquePair(Lesson.class,
-                        Joiners.equal(Lesson::getTimeslot),
+                        Joiners.equal(Lesson::getTimeSlot),
                         Joiners.equal(Lesson::getTeacher))
                 .penalize("Teacher conflict", HardSoftScore.ONE_HARD);
     }
@@ -55,7 +55,7 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         // A student can attend at most one lesson at the same time.
         return constraintFactory
                 .fromUniquePair(Lesson.class,
-                        Joiners.equal(Lesson::getTimeslot),
+                        Joiners.equal(Lesson::getTimeSlot),
                         Joiners.equal(Lesson::getStudentGroup))
                 .penalize("Student group conflict", HardSoftScore.ONE_HARD);
     }
@@ -74,10 +74,10 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
         return constraintFactory
                 .from(Lesson.class)
                 .join(Lesson.class, Joiners.equal(Lesson::getTeacher),
-                        Joiners.equal((lesson) -> lesson.getTimeslot().getDayOfWeek()))
+                        Joiners.equal((lesson) -> lesson.getTimeSlot().getDayOfWeek()))
                 .filter((lesson1, lesson2) -> {
-                    Duration between = Duration.between(lesson1.getTimeslot().getEndTime(),
-                            lesson2.getTimeslot().getStartTime());
+                    Duration between = Duration.between(lesson1.getTimeSlot().getEndTime(),
+                            lesson2.getTimeSlot().getStartTime());
                     return !between.isNegative() && between.compareTo(Duration.ofMinutes(30)) <= 0;
                 })
                 .reward("Teacher time efficiency", HardSoftScore.ONE_SOFT);
@@ -90,10 +90,10 @@ public class TimeTableConstraintProvider implements ConstraintProvider {
                 .join(Lesson.class,
                         Joiners.equal(Lesson::getSubject),
                         Joiners.equal(Lesson::getStudentGroup),
-                        Joiners.equal((lesson) -> lesson.getTimeslot().getDayOfWeek()))
+                        Joiners.equal((lesson) -> lesson.getTimeSlot().getDayOfWeek()))
                 .filter((lesson1, lesson2) -> {
-                    Duration between = Duration.between(lesson1.getTimeslot().getEndTime(),
-                            lesson2.getTimeslot().getStartTime());
+                    Duration between = Duration.between(lesson1.getTimeSlot().getEndTime(),
+                            lesson2.getTimeSlot().getStartTime());
                     return !between.isNegative() && between.compareTo(Duration.ofMinutes(30)) <= 0;
                 })
                 .penalize("Student group subject variety", HardSoftScore.ONE_SOFT);
