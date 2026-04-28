@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
-              name="StudentGroupTimetable" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d">
+              name="TeacherTimetable" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a1b2c3d4-e5f6-7a8b-9c0d-1e2f3a4b5c6d">
 
     <style name="Base" isDefault="true" fontName="SansSerif" fontSize="10"/>
 
@@ -36,8 +36,7 @@
     <field name="timeSlot.startTime" class="java.time.LocalTime"/>
     <field name="timeSlot.endTime" class="java.time.LocalTime"/>
     <field name="room.name" class="java.lang.String"/>
-    <field name="teacher.firstNAme" class="java.lang.String"/>
-    <field name="teacher.lastName" class="java.lang.String"/>
+    <field name="studentGroup" class="java.lang.String"/>
 
     <group name="DayGroup">
         <groupExpression><![CDATA[$F{timeSlot.dayOfWeek}]]></groupExpression>
@@ -101,7 +100,7 @@
             </staticText>
             <staticText>
                 <reportElement style="TableHeader" x="280" y="0" width="140" height="25" uuid="aaaa3333-bbbb-cccc-dddd-eeeeeeeeeeee"/>
-                <text><![CDATA[LECTURER]]></text>
+                <text><![CDATA[STUDENT GROUP]]></text>
             </staticText>
             <staticText>
                 <reportElement style="TableHeader" x="420" y="0" width="135" height="25" uuid="aaaa4444-bbbb-cccc-dddd-eeeeeeeeeeee"/>
@@ -125,7 +124,7 @@
 
             <textField>
                 <reportElement style="TableRow" x="280" y="0" width="140" height="25" uuid="bbbb3333-cccc-dddd-eeee-ffffffffffff"/>
-                <textFieldExpression><![CDATA[$F{teacher.firstNAme} + " " + $F{teacher.lastName}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{studentGroup} == null ? "TBA" : $F{studentGroup}]]></textFieldExpression>
             </textField>
 
             <textField>

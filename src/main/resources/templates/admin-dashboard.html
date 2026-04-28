@@ -329,13 +329,13 @@
                                             <!-- Day -->
                                             <td>
         <span class="badge badge-tum"
-              th:text="${lesson.timeslot != null ? lesson.timeslot.dayOfWeek.name() : 'Unassigned'}">
+              th:text="${lesson.timeSlot != null ? lesson.timeSlot.dayOfWeek.name() : 'Unassigned'}">
         </span>
                                             </td>
 
                                             <!-- Time -->
-                                            <td th:text="${lesson.timeslot != null
-        ? #temporals.format(lesson.timeslot.startTime, 'HH:mm') + ' - ' + #temporals.format(lesson.timeslot.endTime, 'HH:mm')
+                                            <td th:text="${lesson.timeSlot != null
+        ? #temporals.format(lesson.timeSlot.startTime, 'HH:mm') + ' - ' + #temporals.format(lesson.timeSlot.endTime, 'HH:mm')
         : 'Unassigned'}">
                                             </td>
 
@@ -346,9 +346,15 @@
                                             <td th:text="${lesson.studentGroup ?: 'N/A'}"></td>
 
                                             <!-- Teacher -->
-                                            <td th:text="${lesson.teacher != null
-        ? lesson.teacher.firstNAme + ' ' + lesson.teacher.lastName
-        : 'Unassigned'}">
+                                            <td>
+                                                <th:block th:if="${lesson.teacher != null}">
+                                                    <a th:href="@{/lecturers/{id}/page(id=${lesson.teacher.id})}"
+                                                       th:text="${lesson.teacher.firstNAme + ' ' + lesson.teacher.lastName}">
+                                                    </a>
+                                                </th:block>
+                                                <span th:if="${lesson.teacher == null}" class="text-muted">
+        Unassigned
+    </span>
                                             </td>
 
                                             <!-- Room -->

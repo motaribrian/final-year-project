@@ -75,4 +75,30 @@ function solve() {
         }
     });
 }
+function downloadLecturerTimetable(id){
+    $.ajax({
+        url: `/teacher/${id}/pdf`,
+        method: "GET",
+        xhrFields: {
+            responseType: "blob"
+        },
+
+        success: function (data) {
+
+            const blob = new Blob([data], { type: "application/pdf" });
+            const url = window.URL.createObjectURL(blob);
+
+            $("#pdfViewer").attr("src", url);
+            $("#pdfModal").modal("show");
+        },
+
+        error: function () {
+            alert("Failed to generate timetable.");
+        },
+
+        complete: function () {
+            // $("#pdfLoader").hide();
+        }
+    });
+}
 
