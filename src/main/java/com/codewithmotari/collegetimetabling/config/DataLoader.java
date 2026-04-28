@@ -30,6 +30,7 @@ public class DataLoader implements CommandLineRunner {
         // 1. USER ACCOUNTS
         // ==========================================
         UserAccount u1 = createUser("brianmotari02@gmail.com");
+
         UserAccount u2 = createUser("mary.jane@gmail.com");
         UserAccount u3 = createUser("alex.kim@gmail.com");
         UserAccount u4 = createUser("sarah.ali@gmail.com");
