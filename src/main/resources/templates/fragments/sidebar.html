@@ -1,0 +1,129 @@
+<div th:fragment="sidebar(currentPage)" class="sidebar" data-background-color="dark">
+    <div class="sidebar-logo">
+        <div class="logo-header" data-background-color="dark">
+            <a th:href="@{/}" class="logo d-flex align-items-center">
+                <i class="fas fa-university fs-4 text-white me-2"></i>
+                <span class="text-white fw-bold fs-5">TUM Admin</span>
+            </a>
+            <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                    <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                    <i class="gg-menu-left"></i>
+                </button>
+            </div>
+            <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+        <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+
+                <li class="nav-item" th:classappend="${currentPage == 'dashboard'} ? 'active' : ''">
+                    <a th:href="@{/}">
+                        <i class="fas fa-home"></i>
+                        <p>Master Timetable</p>
+                    </a>
+                </li>
+
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">Academic Setup</h4>
+                </li>
+
+                <li class="nav-item" th:classappend="${currentPage == 'lessons'} ? 'active' : ''">
+                    <a data-toggle="collapse" href="#lessonsNav">
+                        <i class="fas fa-book-open"></i>
+                        <p>Lessons</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="lessonsNav">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a th:href="@{/}">
+                                    <span class="sub-item">View All Lessons</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/lessons/add}">
+                                    <span class="sub-item">Add New Lesson</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item" th:classappend="${currentPage == 'lecturers'} ? 'active' : ''">
+                    <a th:href="@{/lecturers}">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <p>Lecturers</p>
+                    </a>
+                </li>
+
+                <li class="nav-item" th:classappend="${currentPage == 'studentGroups'} ? 'active' : ''">
+                    <a th:href="@{/#}">
+                        <i class="fas fa-users"></i>
+                        <p>Student Groups</p>
+                    </a>
+                </li>
+
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">Infrastructure</h4>
+                </li>
+
+                <li class="nav-item" th:classappend="${currentPage == 'timeslots'} ? 'active' : ''">
+                    <a th:href="@{/#}">
+                        <i class="fas fa-clock"></i>
+                        <p>Timeslots</p>
+                    </a>
+                </li>
+
+                <li class="nav-item" th:classappend="${currentPage == 'rooms'} ? 'active' : ''">
+                    <a th:href="@{/rooms}">
+                        <i class="fas fa-door-open"></i>
+                        <p>Venues & Rooms</p>
+                    </a>
+                </li>
+
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">System</h4>
+                </li>
+
+                <li class="nav-item" th:classappend="${currentPage == 'admin'} ? 'active' : ''">
+                    <a data-toggle="collapse" href="#adminNav">
+                        <i class="fas fa-cogs"></i>
+                        <p>Administration</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="adminNav">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a th:href="@{/users}">
+                                    <span class="sub-item">User Management</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a th:href="@{/settings}">
+                                    <span class="sub-item">Solver Settings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>

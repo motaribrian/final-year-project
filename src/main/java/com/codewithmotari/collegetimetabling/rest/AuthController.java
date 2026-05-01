@@ -59,6 +59,10 @@ public class AuthController {
         userAccount.setUserRoles(registerdto.getUserRoles());
 
         UserAccount savedUser=userService.createNewUser(userAccount);
+        log.info("User Account Created Successfully");
+        log.info("Creatinny role {} ",registerdto.getUserRoles().get(0).name());
+
+        if(registerdto.getUserRoles().contains(ROLE.TEACHER)){
 
         Teacher teacher=new Teacher();
         teacher.setUserAccount(savedUser);
@@ -66,6 +70,7 @@ public class AuthController {
         teacher.setLastName(registerdto.getLastName());
 
         Teacher savedTeacher=teacherRepository.save(teacher);
+        }
         }catch (DataIntegrityViolationException e){
             bindingResult.addError(new ObjectError("username","UsernameAlreadyTaken"));
             model.addAttribute("authdto",registerdto);

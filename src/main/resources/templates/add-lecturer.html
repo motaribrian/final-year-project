@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Add Lecturer - TUM Admin Dashboard</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+    <link rel="icon" th:href="@{/assets/img/kaiadmin/favicon.ico}" type="image/x-icon" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <script th:src="@{/js/webfont/webfont.min.js}"></script>
+    <script th:inline="javascript">
+        var url= /*[[@{/css/fonts.min.css}]]*/ '/css/fonts.min.css';
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: [url],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/kaiadmin.min.css}" />
+</head>
+<body>
+<div class="preloader-wrapper">
+    <div class="preloader">
+        <img th:src="@{/assets/preview.gif}" alt="NILA">
+    </div>
+</div>
+
+<div class="wrapper">
+    <div th:replace="~{fragments/sidebar :: sidebar('lecturers')}"></div>
+
+    <div class="main-panel">
+        <div th:replace="fragments/header :: header"></div>
+        <div class="container">
+            <div class="page-inner">
+
+                <div class="page-header">
+                    <h4 class="page-title">Add New Lecturer</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a th:href="@{/}"><i class="icon-home"></i></a>
+                        </li>
+                        <li class="separator"><i class="icon-arrow-right"></i></li>
+                        <li class="nav-item">
+                            <a th:href="@{/lecturers}">Lecturers</a>
+                        </li>
+                        <li class="separator"><i class="icon-arrow-right"></i></li>
+                        <li class="nav-item">
+                            <a href="#">Create Profile</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Lecturer Account Details</div>
+                                <div class="card-category">Enter the personal and login information for the new staff member.</div>
+                            </div>
+
+                            <form th:action="@{/lecturers/save}" method="POST" th:object="${lecturer}" id="lecturerForm">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="firstName">First Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="firstName" name="firstNAme" th:field="*{firstName}" placeholder="e.g. Jane" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="lastName">Last Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}" placeholder="e.g. Doe" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="email">University Email Address <span class="text-danger">*</span></label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="basic-addon1"><i class="fas fa-envelope"></i></span>
+                                                    <input type="email" class="form-control" id="email" name="userAccount.email" th:field="*{email}" placeholder="lecturer@tum.ac.ke" aria-describedby="basic-addon1" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="password">Initial Password <span class="text-danger">*</span></label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="basic-addon2"><i class="fas fa-lock"></i></span>
+                                                    <input type="password" class="form-control" id="password" name="userAccount.password" th:field="*{password}" placeholder="Set a temporary password" required>
+                                                </div>
+                                                <small id="passwordHelp" class="form-text text-muted">The lecturer should change this upon their first login.</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-action d-flex justify-content-between">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-save me-1"></i> Save Profile
+                                    </button>
+                                    <a th:href="@{/lecturers}" class="btn btn-danger">
+                                        <i class="fas fa-arrow-left me-1"></i> Cancel & Back
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+<script th:src="@{/js/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/js/sweetalert/sweetalert.min.js}"></script>
+
+<script th:src="@{/js/kaiadmin.min.js}"></script>
+<script th:src="@{/js/app2.js}"></script>
+
+</body>
+</html>
