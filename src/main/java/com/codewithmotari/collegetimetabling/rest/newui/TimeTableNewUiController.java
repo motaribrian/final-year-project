@@ -22,7 +22,7 @@ public class TimeTableNewUiController {
     private SolverManager<TimeTable, Long> solverManager;
     @Autowired
     private ScoreManager<TimeTable, HardSoftScore> scoreManager;
-    @GetMapping("/newui/timetable")
+    @GetMapping("/")
     public String getadminDashboard(Principal principal, Model model){
         SolverStatus solverStatus = getSolverStatus();
         TimeTable solution = timeTableRepository.findById(TimeTableRepository.SINGLETON_TIME_TABLE_ID);

@@ -50,11 +50,11 @@
                 <div class="col-sm-6">
                     <div class="message-box">
                         <h1 class="m-b-0">500</h1>
-                        <p>Internal Server Error.</p>
+                        <p th:text="${errorMessage}" >Internal Server Error.</p>
                         <div class="buttons-con">
                             <div class="action-link-wrap">
-                                <a href="#" class="btn btn-custom btn-info waves-effect waves-light m-t-20">Go Back</a>
-                                <a href="#" class="btn btn-custom btn-info waves-effect waves-light m-t-20">Go to Home Page</a>
+                                <a th:href="@{/}" class="btn btn-custom btn-info waves-effect waves-light m-t-20">Go Back</a>
+                                <a th:href="@{/}" class="btn btn-custom btn-info waves-effect waves-light m-t-20">Go to Home Page</a>
                             </div>
                         </div>
                     </div>
@@ -63,6 +63,8 @@
         </div>
     </div>
 <footer th:replace="~{fragments/footer :: footer}"></footer>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/js/app2.js}"></script>
 

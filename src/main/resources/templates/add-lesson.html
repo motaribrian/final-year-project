@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <meta
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+            name="viewport"
+    />
+    <link
+            rel="icon"
+            href="assets/img/kaiadmin/favicon.ico"
+            type="image/x-icon"
+    />
+
+    <style>
+        /*----------------------- Preloader -----------------------*/
+        body.preloader-site {
+            overflow: hidden;
+        }
+
+        .preloader-wrapper {
+            height: 100%;
+            width: 100%;
+            background: #FFF;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999999;
+        }
+
+        .preloader-wrapper .preloader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            width: 120px;
+        }
+    </style>
+
+
+    <!-- Fonts and icons -->
+    <script th:src="@{/js/webfont/webfont.min.js}"></script>
+    <script th:inline="javascript">
+        var url= /*[[@{/css/fonts.min.css}]]*/ '/css/fonts.min.css';
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: [url],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/kaiadmin.min.css}" />
+
+
+</head>
+<body>
+<div class="preloader-wrapper">
+    <div class="preloader">
+        <img th:src="@{/assets/preview.gif}" alt="NILA">
+    </div>
+</div>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar('lessons')}"></div>
+    <!-- End Sidebar -->
+
+    <div class="main-panel">
+        <div th:replace="fragments/header :: header"></div>
+
+        <div class="container">
+            <div class="page-inner">
+
+                <div class="page-header">
+                    <h4 class="page-title">Add New Lesson</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a th:href="@{/}"><i class="icon-home"></i></a>
+                        </li>
+                        <li class="separator"><i class="icon-arrow-right"></i></li>
+                        <li class="nav-item">
+                            <a th:href="@{/lessons}">Lessons</a>
+                        </li>
+                        <li class="separator"><i class="icon-arrow-right"></i></li>
+                        <li class="nav-item"><a href="#">Add</a></li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Lesson Details</div>
+                            </div>
+
+                            <div class="card-body">
+                                <form th:action="@{/lessons/save}" th:object="${lesson}" method="post" id="lessonForm">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="subject">Subject / Unit Name</label>
+                                                <input type="text" class="form-control" id="subject" name="subject" placeholder="Enter subject name" th:field="*{subject}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="studentGroup">Student Group</label>
+                                                <input type="text" class="form-control" id="studentGroup" name="studentGroup" placeholder="e.g., Year 1 BCS" th:field="*{studentGroup}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="lecturer">Assign Lecturer</label>
+                                                <div class="input-group">
+                                                    <select class="form-select form-control" id="lecturer" name="teacher.id" required>
+                                                        <option value="" disabled selected>Select a Lecturer</option>
+                                                        <option th:each="teacher : ${teachers}"
+                                                                th:value="${teacher.id}"
+                                                                th:text="${teacher.firstNAme + ' ' + teacher.lastName}">
+                                                        </option>
+                                                    </select>
+                                                    <button class="btn btn-primary btn-border" type="button" data-toggle="modal" data-target="#addLecturerModal">
+                                                        <i class="fas fa-plus"></i> New
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="card-action">
+                                <button type="submit" form="lessonForm" class="btn btn-success">Save Lesson</button>
+                                <a th:href="@{/}" class="btn btn-danger">Cancel & Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer th:replace="fragments/footer :: footer"></footer>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addLecturerModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <span class="fw-mediumbold"> New</span>
+                    <span class="fw-light"> Lecturer </span>
+                </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="small">Create a new lecturer profile here. They will be automatically selected for this lesson.</p>
+                <form id="newLecturerForm">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default">
+                                <label>First Name</label>
+                                <input id="firstName" name="firstNAme" type="text" class="form-control" placeholder="Enter first name" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default">
+                                <label>Last Name</label>
+                                <input id="lastName" name="lastName" type="text" class="form-control" placeholder="Enter last name" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default">
+                                <label>Email Address</label>
+                                <input id="email" name="email" type="email" class="form-control" placeholder="teacher@university.edu" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default">
+                                <label>Preferred Password</label>
+                                <input id="password" name="password" type="password" class="form-control" placeholder="Set temporary password" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" id="saveLecturerBtn">Add Lecturer</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--   Core JS Files   -->
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+<!-- jQuery Scrollbar -->
+<script th:src="@{/js/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+
+<!-- Chart JS -->
+<script th:src="@{/js/chart.js/chart.min.js}"></script>
+
+<!-- jQuery Sparkline -->
+<script th:src="@{/js/jquery.sparkline/jquery.sparkline.min.js}"></script>
+
+<!-- Chart Circle -->
+<script th:src="@{/js/chart-circle/circles.min.js}"></script>
+
+<!-- Datatables -->
+<script th:src="@{/js/datatables/datatables.min.js}"></script>
+
+<!-- Bootstrap Notify -->
+<script th:src="@{/js/bootstrap-notify/bootstrap-notify.min.js}"></script>
+
+<!-- jQuery Vector Maps -->
+<script th:src="@{/js/jsvectormap/jsvectormap.min.js}"></script>
+<script th:src="@{/js/jsvectormap/world.js}"></script>
+
+<!-- Google Maps Plugin -->
+<script th:src="@{/js/gmaps/gmaps.js}"></script>
+
+<!-- Sweet Alert -->
+<script th:src="@{/js/sweetalert/sweetalert.min.js}"></script>
+
+<!-- Kaiadmin JS -->
+<script th:src="@{/js/kaiadmin.min.js}"></script>
+<script th:src="@{/js/app2.js}"></script>
+</body>
+</html>
