@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Edit Lesson - TUM Admin Dashboard</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+    <link rel="icon" th:href="@{/assets/img/kaiadmin/favicon.ico}" type="image/x-icon" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <script th:src="@{/js/webfont/webfont.min.js}"></script>
+    <script th:inline="javascript">
+        var url= /*[[@{/css/fonts.min.css}]]*/ '/css/fonts.min.css';
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: [url],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/kaiadmin.min.css}" />
+</head>
+<body>
+<div class="preloader-wrapper">
+    <div class="preloader">
+        <img th:src="@{/assets/preview.gif}" alt="TUM">
+    </div>
+</div>
+
+<div class="wrapper">
+    <div th:replace="~{fragments/sidebar :: sidebar('lessons')}"></div>
+
+    <div class="main-panel">
+        <div th:replace="fragments/header :: header"></div>
+        <div class="container">
+            <div class="page-inner">
+
+                <div class="page-header">
+                    <h4 class="page-title">Edit Lesson</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a th:href="@{/}"><i class="icon-home"></i></a>
+                        </li>
+                        <li class="separator"><i class="icon-arrow-right"></i></li>
+                        <li class="nav-item">
+                            <a th:href="@{/lessons}">Lessons</a>
+                        </li>
+                        <li class="separator"><i class="icon-arrow-right"></i></li>
+                        <li class="nav-item">
+                            <a href="#">Modify</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Modify Lesson Properties</div>
+                                <div class="card-category">Update the fixed details or manually assign the timetable slot.</div>
+                            </div>
+
+                            <div class="alert alert-info mx-3 mt-3" role="alert">
+                                <i class="fas fa-info-circle me-1"></i> Manually assigning a Timeslot or Room will act as a fixed assignment when the Timetable Solver runs.
+                            </div>
+
+                            <form th:action="@{/lessons/save}" th:object="${lesson}" method="POST" id="editLessonForm">
+                                <input type="hidden" th:field="*{id}" />
+
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="subject">Unit / Subject Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="subject" th:field="*{subject}" placeholder="e.g. Data Structures" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="studentGroup">Student Group <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="studentGroup" th:field="*{studentGroup}" placeholder="e.g. Year 2 BCS" required>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="teacher">Assign Lecturer <span class="text-danger">*</span></label>
+                                                <select class="form-select" id="teacher" th:field="*{teacher}" required>
+                                                    <option value="" >Select a Lecturer</option>
+                                                    <option th:each="t : ${teachers}"
+                                                            th:value="${t.id}"
+                                                            th:text="${t.firstNAme + ' ' + t.lastName}">
+                                                    </option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="mt-4 mb-2">
+                                    <h5 class="fw-bold px-3">Planning Variables (Optional)</h5>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="timeSlot">Manual Timeslot</label>
+                                                <select class="form-select" id="timeSlot" th:field="*{timeSlot}">
+                                                    <option value="">-- Let Solver Decide --</option>
+                                                    <option th:each="ts : ${timeslots}"
+                                                            th:value="${ts.id}"
+                                                            th:text="${ts.dayOfWeek + ' | ' + #temporals.format(ts.startTime, 'HH:mm') + ' - ' + #temporals.format(ts.endTime, 'HH:mm')}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="room">Manual Room / Venue</label>
+                                                <select class="form-select" id="room" th:field="*{room}">
+                                                    <option value="">-- Let Solver Decide --</option>
+                                                    <option th:each="r : ${rooms}"
+                                                            th:value="${r.id}"
+                                                            th:text="${r.name}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="card-action d-flex justify-content-between">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-save me-1"></i> Update Lesson
+                                    </button>
+                                    <a th:href="@{/}" class="btn btn-danger">
+                                        <i class="fas fa-times me-1"></i> Cancel
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </div>
+</div>
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+<script th:src="@{/js/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+<script th:src="@{/js/sweetalert/sweetalert.min.js}"></script>
+
+<script th:src="@{/js/kaiadmin.min.js}"></script>
+<script th:src="@{/js/app2.js}"></script>
+
+</body>
+</html>
