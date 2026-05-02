@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <meta  content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport"/>
+    <link
+            rel="icon"
+            th:href="@{/assets/favicon.ico}"
+            type="image/x-icon"
+    />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <style>
+        /*----------------------- Preloader -----------------------*/
+        body.preloader-site {
+            overflow: hidden;
+        }
+
+        .preloader-wrapper {
+            height: 100%;
+            width: 100%;
+            background: #FFF;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999999;
+        }
+
+        .preloader-wrapper .preloader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            width: 120px;
+        }
+    </style>
+
+
+    <!-- Fonts and icons -->
+    <script th:src="@{/js/webfont/webfont.min.js}"></script>
+    <script th:inline="javascript">
+        var url= /*[[@{/css/fonts.min.css}]]*/ '/css/fonts.min.css';
+        WebFont.load({
+            google: { families: ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                families: [
+                    "Font Awesome 5 Solid",
+                    "Font Awesome 5 Regular",
+                    "Font Awesome 5 Brands",
+                    "simple-line-icons",
+                ],
+                urls: [url],
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            },
+        });
+    </script>
+
+    <!-- CSS Files -->
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/plugins.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/kaiadmin.min.css}" />
+
+
+</head>
+<body>
+<div class="preloader-wrapper">
+    <div class="preloader">
+        <img th:src="@{/assets/preview.gif}" alt="NILA">
+    </div>
+</div>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <div th:replace="~{fragments/sidebar :: sidebar('admin')}"></div>
+    <!-- End Sidebar -->
+
+    <div class="main-panel">
+        <div th:replace="fragments/header :: header"></div>
+
+        <div class="container">
+            <div class="page-inner">
+
+                <div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+                    <h4 class="page-title m-0">All Classes</h4>
+                    <ul class="breadcrumbs mb-3">
+                        <li class="nav-home">
+                            <a th:href="@{/}">
+                                <i class="icon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="icon-arrow-right"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/classes}">Tables</a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="row">
+                    <!-- Left Column: Student Profile & Quick Actions -->
+                    <div class="col-lg-4 mb-4">
+                        <!-- Profile Card -->
+                        <div class="card shadow-sm mb-4">
+                            <div class="card-body text-center pt-4">
+                                <!-- Placeholder for Avatar -->
+                                <div class="bg-secondary text-white rounded-circle d-inline-flex justify-content-center align-items-center mb-3" style="width: 100px; height: 100px; font-size: 2.5rem;">
+                                    JD
+                                </div>
+                                <h4 class="card-title mb-1">John Doe</h4>
+                                <p class="text-muted mb-2">CS/2024/011</p>
+                                <span class="badge badge-success mb-3">Active Status</span>
+
+                                <ul class="list-group list-group-flush text-left mt-2">
+                                    <li class="list-group-item px-0"><strong>Program:</strong> BSc. Computer Science</li>
+                                    <li class="list-group-item px-0"><strong>Class Group:</strong> Year 3 - Group A</li>
+                                    <li class="list-group-item px-0"><strong>Email:</strong> j.doe@student.edu</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Quick Options -->
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0">Quick Options</h6>
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <button class="btn btn-outline-primary mb-2 text-left">📧 Send Email</button>
+                                <button class="btn btn-outline-secondary mb-2 text-left">✏️ Edit Profile</button>
+                                <button class="btn btn-outline-danger text-left">🚫 Suspend Account</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Tabs Content -->
+                    <div class="col-lg-8">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-white p-0 border-bottom-0">
+                                <!-- Navigation Tabs -->
+                                <ul class="nav nav-tabs px-3 pt-3" id="studentTabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="stats-tab" data-toggle="tab" href="#stats" role="tab" aria-controls="stats" aria-selected="true">Overview & Stats</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="timetable-tab" data-toggle="tab" href="#timetable" role="tab" aria-controls="timetable" aria-selected="false">Timetable</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="lessons-tab" data-toggle="tab" href="#lessons" role="tab" aria-controls="lessons" aria-selected="false">Class Lessons</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="tab-content" id="studentTabsContent">
+
+                                    <!-- TAB 1: Statistics -->
+                                    <div class="tab-pane fade show active" id="stats" role="tabpanel" aria-labelledby="stats-tab">
+                                        <h5 class="mb-4">Academic Statistics</h5>
+                                        <div class="row text-center mb-4">
+                                            <div class="col-sm-4 border-right">
+                                                <h3 class="text-primary mb-0">3.8</h3>
+                                                <small class="text-muted">Current GPA</small>
+                                            </div>
+                                            <div class="col-sm-4 border-right">
+                                                <h3 class="text-success mb-0">95%</h3>
+                                                <small class="text-muted">Attendance</small>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h3 class="text-info mb-0">120</h3>
+                                                <small class="text-muted">Credits Earned</small>
+                                            </div>
+                                        </div>
+
+                                        <h6 class="text-muted mb-2">Semester Progress</h6>
+                                        <div class="progress mb-4" style="height: 20px;">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">Week 12 of 16</div>
+                                        </div>
+
+                                        <h6 class="text-muted mb-2">Assignment Completion</h6>
+                                        <div class="progress" style="height: 20px;">
+                                            <div class="progress-bar bg-info" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">90% Submitted</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- TAB 2: Timetable -->
+                                    <div class="tab-pane fade" id="timetable" role="tabpanel" aria-labelledby="timetable-tab">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="mb-0">Current Schedule</h5>
+                                            <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#pdfPreviewModal">
+                                                📄 Preview & Download PDF
+                                            </button>
+                                        </div>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-sm text-center mb-0">
+                                                <thead class="thead-light">
+                                                <tr>
+                                                    <th>Day</th>
+                                                    <th>Morning<br><small>08:00 - 11:00</small></th>
+                                                    <th>Afternoon<br><small>13:00 - 16:00</small></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td class="align-middle font-weight-bold bg-light">Mon</td>
+                                                    <td class="bg-primary text-white rounded">Advanced Java<br><small>Lab 3</small></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-middle font-weight-bold bg-light">Tue</td>
+                                                    <td></td>
+                                                    <td class="bg-success text-white rounded">Linux Admin (AlmaLinux)<br><small>Lab 1</small></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-middle font-weight-bold bg-light">Wed</td>
+                                                    <td class="bg-warning text-dark rounded">Constraint Programming<br><small>Room 102</small></td>
+                                                    <td class="bg-primary text-white rounded">Advanced Java<br><small>Lab 3</small></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-middle font-weight-bold bg-light">Thu</td>
+                                                    <td></td>
+                                                    <td class="bg-info text-white rounded">Database Optimization<br><small>Room 204</small></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="align-middle font-weight-bold bg-light">Fri</td>
+                                                    <td colspan="2" class="text-muted bg-light font-italic align-middle">Project Work / Open Lab</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- TAB 3: Lessons -->
+                                    <div class="tab-pane fade" id="lessons" role="tabpanel" aria-labelledby="lessons-tab">
+                                        <h5 class="mb-3">Enrolled Lessons (Year 3 - Group A)</h5>
+                                        <div class="list-group">
+                                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Advanced Java (Spring Boot)</h6>
+                                                    <small class="text-muted">4 Credits</small>
+                                                </div>
+                                                <p class="mb-1 text-muted"><small>Lecturer: Dr. Alan Turing | Type: Practical</small></p>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Constraint Programming</h6>
+                                                    <small class="text-muted">3 Credits</small>
+                                                </div>
+                                                <p class="mb-1 text-muted"><small>Lecturer: Prof. Ada Lovelace | Type: Theory</small></p>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Linux Server Administration</h6>
+                                                    <small class="text-muted">3 Credits</small>
+                                                </div>
+                                                <p class="mb-1 text-muted"><small>Lecturer: Mr. Linus | Type: Practical</small></p>
+                                            </a>
+                                            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                                                <div class="d-flex w-100 justify-content-between">
+                                                    <h6 class="mb-1">Database Optimization</h6>
+                                                    <small class="text-muted">3 Credits</small>
+                                                </div>
+                                                <p class="mb-1 text-muted"><small>Lecturer: Dr. E. Codd | Type: Theory</small></p>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PDF Preview Modal -->
+                    <div class="modal fade" id="pdfPreviewModal" tabindex="-1" role="dialog" aria-labelledby="pdfPreviewModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-dark text-white">
+                                    <h5 class="modal-title" id="pdfPreviewModalLabel">Timetable Preview - John Doe</h5>
+                                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body p-0">
+                                    <!-- Placeholder for PDF viewer (iframe or embed) -->
+                                    <div class="bg-light d-flex justify-content-center align-items-center" style="height: 500px; width: 100%;">
+                                        <div class="text-center text-muted">
+                                            <h1 class="display-4">📄</h1>
+                                            <p>PDF Document Preview Rendered Here</p>
+                                            <small>(Replace this div with your &lt;iframe&gt; or PDF.js viewer)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer bg-light">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <!-- Trigger your actual download logic here -->
+                                    <button type="button" class="btn btn-primary">⬇️ Download PDF</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <footer th:replace="fragments/footer :: footer"></footer>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container-fluid d-flex justify-content-between">
+            <nav class="pull-left">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.themekita.com">
+                            ThemeKita
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> Help </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"> Licenses </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="copyright">
+                2024, made with <i class="fa fa-heart heart text-danger"></i> by
+                <a href="http://www.themekita.com">ThemeKita</a>
+            </div>
+            <div>
+                Distributed by
+                <a target="_blank" href="https://themewagon.com/">ThemeWagon</a>.
+            </div>
+        </div>
+    </footer>
+</div>
+</div>
+
+<!--modals-->
+<!-- PDF Modal -->
+<div class="modal fade" id="pdfModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Timetable Preview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body" style="height:80vh;">
+                <iframe id="pdfViewer" width="100%" height="100%" style="border:none;"></iframe>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addLecturerModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title">
+                    <span class="fw-mediumbold"> New</span>
+                    <span class="fw-light"> Lecturer </span>
+                </h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="small">Create a new lecturer profile here. They will be automatically selected for this lesson.</p>
+                <form id="newLecturerForm">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default">
+                                <label>First Name</label>
+                                <input id="firstName" name="firstNAme" type="text" class="form-control" placeholder="Enter first name" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default">
+                                <label>Last Name</label>
+                                <input id="lastName" name="lastName" type="text" class="form-control" placeholder="Enter last name" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default">
+                                <label>Email Address</label>
+                                <input id="email" name="email" type="email" class="form-control" placeholder="teacher@university.edu" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default">
+                                <label>Preferred Password</label>
+                                <input id="password" name="password" type="password" class="form-control" placeholder="Set temporary password" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-primary" id="saveLecturerBtn">Add Lecturer</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--   Core JS Files   -->
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+<!-- jQuery Scrollbar -->
+<script th:src="@{/js/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
+
+<!-- Chart JS -->
+<script th:src="@{/js/chart.js/chart.min.js}"></script>
+
+<!-- jQuery Sparkline -->
+<script th:src="@{/js/jquery.sparkline/jquery.sparkline.min.js}"></script>
+
+<!-- Chart Circle -->
+<script th:src="@{/js/chart-circle/circles.min.js}"></script>
+
+<!-- Datatables -->
+<script th:src="@{/js/datatables/datatables.min.js}"></script>
+
+<!-- Bootstrap Notify -->
+<script th:src="@{/js/bootstrap-notify/bootstrap-notify.min.js}"></script>
+
+
+
+
+
+<!-- Sweet Alert -->
+<script th:src="@{/js/sweetalert/sweetalert.min.js}"></script>
+
+<!-- Kaiadmin JS -->
+<script th:src="@{/js/kaiadmin.min.js}"></script>
+<script th:src="@{/js/app2.js}"></script>
+<script>
+    $('#classesTable').DataTable({
+        "pageLength": 5,
+    });
+</script>
+</body>
+</html>

@@ -85,115 +85,66 @@
             <div class="page-inner">
 
                 <div class="page-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
-                    <h4 class="page-title m-0">Master Timetable Overview</h4>
-                    <div class="d-flex gap-2">
-                        <a th:href="@{/lessons/add}" class="btn btn-primary">
-                            <i class="fas fa-plus me-1"></i> Add Lesson
-                        </a>
+                    <h4 class="page-title m-0">All Classes</h4>
+                    <ul class="breadcrumbs mb-3">
+                        <li class="nav-home">
+                            <a th:href="@{/}">
+                                <i class="icon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="icon-arrow-right"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/classes}">Tables</a>
+                        </li>
 
-                        <button class="btn btn-secondary" id="downloadButton" type="button">
-                            <span class="fas fa-print me-1"></span> Export PDF
-                        </button>
-                    </div>
+                    </ul>
+
                 </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div
-                                class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2"
-                        >
-<!--                            <button class="btn btn-secondary" id="downloadButton" type="button">-->
-<!--                                <span class="fas fa-print me-1"></span> Export Jasper PDF-->
-<!--                            </button>-->
-                            <button class="btn btn-success"
-                                    id="solveButton"
-                                    type="button"
-                                    th:disabled="${timetable.solverStatus == 'SOLVING_ACTIVE'}">
-                                <span class="fas fa-play" th:classappend="${timetable.solverStatus.name() == 'SOLVING_ACTIVE'} ? 'fa-spinner fa-spin' : 'fa-play'"></span>
-                                <span th:text="${timetable.solverStatus.name() == 'SOLVING_ACTIVE'} ? ' Solving...' : ' Solve'"> Solve</span>
-                            </button>
-                            <span class="score ml-2 align-middle font-weight-bold" id="score" th:text="${'Score : ' + (timetable.score != null ? timetable.score : '--')}">Score: ?</span>
-                            <span class="badge bg-success px-3 py-2"
-                            ><i class="fas fa-check-circle me-1" th:text="${timetable.solverStatus.name}"></i> </span
-                            >
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table
-                                        id="master-timetable"
-                                        class="table table-striped table-hover table-bordered w-100"
-                                >
-                                    <thead class="table-dark">
-                                    <tr>
-                                        <th>Day</th>
-                                        <th>Time</th>
-                                        <th>Unit / Subject</th>
-                                        <th>Student Group</th>
-                                        <th>Lecturer</th>
-                                        <th>Venue</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="lesson : ${timetable.lessonList}">
+                <div class="row">
 
-                                        <!-- Day -->
-                                        <td>
-        <span class="badge badge-tum"
-              th:text="${lesson.timeSlot != null ? lesson.timeSlot.dayOfWeek.name() : 'Unassigned'}">
-        </span>
-                                        </td>
-
-                                        <!-- Time -->
-                                        <td th:text="${lesson.timeSlot != null
-        ? #temporals.format(lesson.timeSlot.startTime, 'HH:mm') + ' - ' + #temporals.format(lesson.timeSlot.endTime, 'HH:mm')
-        : 'Unassigned'}">
-                                        </td>
-
-                                        <!-- Subject -->
-                                        <td th:text="${lesson.subject ?: 'N/A'}"></td>
-
-                                        <!-- Student Group -->
-                                        <td>
-                                            <th:block th:if="${lesson.studentGroup != null}">
-                                                <a th:href="@{/classes/{code}(code=${lesson.studentGroup.classCode})}"
-                                                   th:text="${lesson.studentGroup.classCode}">
-                                                </a>
-                                            </th:block>
-                                            <span th:if="${lesson.studentGroup == null}" class="text-muted">Unassigned</span>
-                                        </td>
-
-                                        <!-- Teacher -->
-                                        <td>
-                                            <th:block th:if="${lesson.teacher != null}">
-                                                <a th:href="@{/lecturers/{id}/page(id=${lesson.teacher.id})}"
-                                                   th:text="${lesson.teacher.firstNAme + ' ' + lesson.teacher.lastName}">
-                                                </a>
-                                            </th:block>
-                                            <span th:if="${lesson.teacher == null}" class="text-muted">Unassigned</span>
-                                        </td>
-
-                                        <!-- Room -->
-                                        <td th:text="${lesson.room != null ? lesson.room.name : 'Unassigned'}"></td>
-
-                                        <!-- Actions -->
-                                        <td class="text-center">
-
-                                            <a th:href="@{/lessons/{id}/edit(id=${lesson.id})}" class="btn btn-sm btn-outline-primary">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                        </td>
-
-                                    </tr>
-
-                                    </tbody>
-                                </table>
+                    <div class="col-md-6 col-lg-7 bg-dark text-white d-none d-md-flex flex-column justify-content-center p-5">
+                        <div class="px-xl-5">
+                            <h1 class="display-4 font-weight-bold mb-4">Class Setup</h1>
+                            <p class="lead text-light mb-5">Configure academic programs and scheduling yeard</p>
+                            <div class="border-left border-info pl-4 mt-4">
+                                <p class="text-muted mb-0 small text-uppercase tracking-wide">System administration</p>
+                                <p class="font-italic mb-0 mt-1">Automated Timetable Configurations</p>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="col-md-6 col-lg-5 bg-white d-fles align-items-center justify-content-center py-5 shadow-sm">
+                        <div class="w-100 px-4 px-xl-5">
+                            <div class="mb-5">
+                                <h2 class="font-weight-bold text-dark">Add new class</h2>
+                                <p class="text-secondary">Register New Class to the database</p>
+                            </div>
+                            <form th:action="@{/classes/add}" th:object="${class}" th:method="POST">
+                                <div class="form-group mb-4">
+                                    <label for="programSelect" class="font-weight-bold text-secondary">Academic Profram</label>
+                                    <select id="programSelect" name="programId" style="width: 100%" th:field="*{program}">
+                                        <option th:each="program : ${programs}" th:value="${program.id}" th:text="${program.programmeName}"></option>
+                                    </select>
+
+                                    <small class="form-text text-muted mt-2">Start Typing to instantly filter the list</small>
+
+                                </div>
+                                <div class="form-group mb-5">
+                                    <label for="yearSelect" class="font-weight-bold text-secondary">Academic Year</label>
+                                    <select name="" id="yearSelect" class="custom-select custom-select-lg bg-light border-0" required>
+                                        <option value="1">1</option>
+                                        <option value="1">1</option>
+                                        <option value="1">1</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary btn-lg btn-block shadow-sm fontweight-bold py-3">Save Class</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
 
 
@@ -307,17 +258,14 @@
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 
+
+<!--select2-->
+<script th:src="@{/js/select2/select2.full.min.js}"></script>
 <!-- jQuery Scrollbar -->
 <script th:src="@{/js/jquery-scrollbar/jquery.scrollbar.min.js}"></script>
 
-<!-- Chart JS -->
-<script th:src="@{/js/chart.js/chart.min.js}"></script>
 
-<!-- jQuery Sparkline -->
-<script th:src="@{/js/jquery.sparkline/jquery.sparkline.min.js}"></script>
 
-<!-- Chart Circle -->
-<script th:src="@{/js/chart-circle/circles.min.js}"></script>
 
 <!-- Datatables -->
 <script th:src="@{/js/datatables/datatables.min.js}"></script>
@@ -325,18 +273,24 @@
 <!-- Bootstrap Notify -->
 <script th:src="@{/js/bootstrap-notify/bootstrap-notify.min.js}"></script>
 
-<!-- jQuery Vector Maps -->
-<script th:src="@{/js/jsvectormap/jsvectormap.min.js}"></script>
-<script th:src="@{/js/jsvectormap/world.js}"></script>
-
-<!-- Google Maps Plugin -->
-<script th:src="@{/js/gmaps/gmaps.js}"></script>
-
 <!-- Sweet Alert -->
 <script th:src="@{/js/sweetalert/sweetalert.min.js}"></script>
 
 <!-- Kaiadmin JS -->
 <script th:src="@{/js/kaiadmin.min.js}"></script>
 <script th:src="@{/js/app2.js}"></script>
+<script>
+    $(document).ready(function(){
+        $("#programSelect").select2({
+            placeholder : "search for a course",
+            allowClear : true
+        });
+    });
+</script>
+<script>
+    $('#classesTable').DataTable({
+        "pageLength": 5,
+    });
+</script>
 </body>
 </html>

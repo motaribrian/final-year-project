@@ -89,7 +89,7 @@ public class TimetableReportService {
                         lesson.getTimeSlot().getStartTime().toString(),
                         lesson.getTimeSlot().getEndTime().toString(),
                         lesson.getSubject(),
-                        lesson.getStudentGroup(),
+                        lesson.getStudentGroup().getClassCode(),
                         lesson.getRoom().getName()
                 ))
                 .collect(Collectors.toList());
